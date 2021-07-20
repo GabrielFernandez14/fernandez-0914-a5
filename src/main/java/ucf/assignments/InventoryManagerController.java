@@ -85,6 +85,13 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
+    public void deleteItemButtonClicked(ActionEvent actionEvent) {
+        if(inventoryTable.getSelectionModel().getSelectedItem() != null) {
+            listModel.getItems().remove(inventoryTable.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    @FXML
     public void saveAsMenuItemClicked(ActionEvent actionEvent) {
     }
 
@@ -104,7 +111,4 @@ public class InventoryManagerController implements Initializable {
     public void searchSNMenuItemClicked(ActionEvent actionEvent) {
     }
 
-    @FXML
-    public void deleteItemButtonClicked(ActionEvent actionEvent) {
-    }
 }
