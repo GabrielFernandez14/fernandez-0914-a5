@@ -7,6 +7,7 @@ package ucf.assignments;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -19,7 +20,7 @@ import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddItemController {
+public class EditItemController implements Initializable {
     private InventoryListModel listModel;
     private SceneManager sceneManager;
 
@@ -36,24 +37,24 @@ public class AddItemController {
     private final String error11 = "Error: Serial number is not formatted correctly.";
 
     @FXML
-    private TextField priceTextField;
+    private TextField editPriceTextField;
     @FXML
-    private TextField serialNumberTextField;
+    private TextField editSerialNumberTextField;
     @FXML
-    private TextField nameTextField;
+    private TextField editNameTextField;
     @FXML
-    private Label errorLabel;
+    private Label editErrorLabel;
 
-    public AddItemController(InventoryListModel listModel, SceneManager sceneManager) {
+    public EditItemController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
         this.sceneManager = sceneManager;
     }
 
     @FXML
-    private void confirmButtonClicked(ActionEvent actionEvent) {
-        String price = priceTextField.getText();
-        String serialNumber = serialNumberTextField.getText();
-        String name = nameTextField.getText();
+    public void editConfirmButtonClicked(ActionEvent actionEvent) {
+        String price = editPriceTextField.getText();
+        String serialNumber = editSerialNumberTextField.getText();
+        String name = editNameTextField.getText();
 
         if (inputIsValid(price, serialNumber, name)) {
             commitToList(price, serialNumber, name);
@@ -143,6 +144,6 @@ public class AddItemController {
     }
 
     private void printError(String prompt) {
-        errorLabel.setText(prompt);
+        editErrorLabel.setText(prompt);
     }
 }

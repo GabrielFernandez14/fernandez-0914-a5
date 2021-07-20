@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ucf.assignments.EditItemWindow"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefHeight="89.0" prefWidth="800.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="-4.0" layoutY="-2.0" prefHeight="62.0" prefWidth="800.0" spacing="10.0">
+         <children>
+            <TextField fx:id="editPriceTextField" prefHeight="41.0" prefWidth="135.0" promptText="Price" style="-fx-background-color: lightpink; -fx-background-radius: 15; -fx-opacity: .8;">
+               <font>
+                  <Font name="Futura-Medium" size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="editSerialNumberTextField" prefHeight="41.0" prefWidth="199.0" promptText="Serial Number" style="-fx-background-color: lightpink; -fx-background-radius: 15; -fx-opacity: .8;">
+               <font>
+                  <Font name="Futura-Medium" size="18.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="editNameTextField" prefHeight="41.0" prefWidth="354.0" promptText="Name" style="-fx-background-color: lightpink; -fx-background-radius: 15; -fx-opacity: .8;">
+               <font>
+                  <Font name="Futura-Medium" size="18.0" />
+               </font>
+            </TextField>
+            <JFXButton fx:id="editConfirmButton" buttonType="RAISED" onAction="#editConfirmButtonClicked" prefHeight="41.0" prefWidth="105.0" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Confirm" textFill="#6e750b">
+               <font>
+                  <Font name="Futura-Medium" size="20.0" />
+               </font>
+               <ripplerFill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.7614729404449463" green="0.800000011920929" blue="0.4320000112056732" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.6696000099182129" green="0.8425732851028442" blue="0.9300000071525574" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </ripplerFill>
+            </JFXButton>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+      <Label fx:id="editErrorLabel" alignment="CENTER" layoutY="55.0" prefHeight="29.0" prefWidth="791.0" textFill="#c32b2b">
+         <font>
+            <Font name="Futura-Medium" size="19.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>
