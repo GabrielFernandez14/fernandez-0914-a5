@@ -19,13 +19,14 @@ public class InventoryManager extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         SceneManager sceneManager = new SceneManager();
         sceneManager.load();
 
-        Scene scene = sceneManager.getScene("MainWindow");
+        Scene scene = sceneManager.getScene("MainWindow.fxml");
 
         primaryStage.setTitle("Inventory Manager");
+        primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
