@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -19,7 +20,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddItemController {
-    private InventoryManagerController mainWindowController;
     private InventoryListModel listModel;
     private SceneManager sceneManager;
 
@@ -61,7 +61,8 @@ public class AddItemController {
     }
 
     public void commitToList(String price, String serialNumber, String name) {
-        BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price));
+        BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
+                .setScale(2, RoundingMode.HALF_UP);
         listModel.getItems().add(new InventoryItem(priceBigDecimal, serialNumber, name));
 
         priceTextField.clear();
@@ -73,7 +74,6 @@ public class AddItemController {
     }
 
     public boolean inputIsValid(String price, String serialNumber, String name) {
-        String numRegex = ".*[0-9].*";
         String alphaRegex = ".*[a-zA-Z].*";
         Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
 
@@ -116,7 +116,6 @@ public class AddItemController {
             printError(error9);
             return false;
         }
-        // ToDo program breaks if I enter something weird like 123a.45
         else if (price.matches(alphaRegex)) {
             printError(error10);
             return false;
@@ -126,7 +125,8 @@ public class AddItemController {
             return false;
         }
 
-        // ToDo see why program breaks from the above comment
+        // This is a very overcomplicated way of checking that
+        // the input is valid as a BigDecimal
         try {
             DecimalFormatSymbols symbols = new DecimalFormatSymbols();
             symbols.setDecimalSeparator('.');

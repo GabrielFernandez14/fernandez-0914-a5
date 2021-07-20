@@ -8,9 +8,7 @@ package ucf.assignments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.swing.event.ListDataListener;
-
-// Last time I use Dr. Hollander's code I swear
+// Basically just creates an ObservableList<InventoryItem>, thanks prof
 public class InventoryListModel {
     public ObservableList<InventoryItem> items;
 

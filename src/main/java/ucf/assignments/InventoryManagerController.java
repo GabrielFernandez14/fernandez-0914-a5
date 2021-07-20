@@ -11,13 +11,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.BigDecimalStringConverter;
+
+import javax.swing.*;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -60,13 +62,8 @@ public class InventoryManagerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, BigDecimal>("price"));
-        valueTableColumn.setCellFactory(TextFieldTableCell.forTableColumn(new BigDecimalStringConverter()));
-
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("serialNumber"));
-        serialNumberTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("name"));
-        nameTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     }
 
     @FXML
@@ -78,6 +75,13 @@ public class InventoryManagerController implements Initializable {
         stage.show();
 
         inventoryTable.setItems(listModel.getItems());
+
+        /* Can't get CSS working
+        ScrollBar scrollBar = (ScrollBar) inventoryTable.lookup(".scroll-bar:horizontal");
+        if (scrollBar != null) {
+            scrollBar.setStyle("-fx-background-color: transparent;");
+        }
+         */
     }
 
     @FXML

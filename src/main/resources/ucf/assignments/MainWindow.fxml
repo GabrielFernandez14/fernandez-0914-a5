@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: lightpink;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: lightblue;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <MenuBar prefHeight="0.0" prefWidth="800.0" style="-fx-background-color: lightpink;" BorderPane.alignment="CENTER">
         <menus>
@@ -35,9 +35,9 @@
       </MenuBar>
    </top>
    <center>
-      <TableView fx:id="inventoryTable" editable="true" BorderPane.alignment="CENTER">
+      <TableView fx:id="inventoryTable" editable="true" opacity="0.7" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="valueTableColumn" editable="false" prefWidth="133.0" resizable="false" text="Value" />
+          <TableColumn fx:id="valueTableColumn" editable="false" prefWidth="133.0" resizable="false" text="Price ($)" />
           <TableColumn fx:id="serialNumberTableColumn" editable="false" prefWidth="133.0" resizable="false" text="Serial Number" />
             <TableColumn fx:id="nameTableColumn" editable="false" prefWidth="534.0" resizable="false" text="Name" />
         </columns>

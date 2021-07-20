@@ -7,7 +7,6 @@ package ucf.assignments;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class InventoryItem implements Serializable {
     private BigDecimal price;
