@@ -120,6 +120,13 @@ public class InventoryManagerController implements Initializable {
 
     @FXML
     public void saveAsMenuItemClicked(ActionEvent actionEvent) {
+        FileManager save = new FileManager();
+
+        String getPath = save.saveFile();
+
+        if (!getPath.equals("")) {
+            FileManager.writeToFile(getPath, listModel);
+        }
     }
 
     @FXML
