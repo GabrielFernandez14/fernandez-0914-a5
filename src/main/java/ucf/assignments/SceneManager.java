@@ -24,6 +24,7 @@ public class SceneManager {
         InventoryManagerController inventoryManagerController = new InventoryManagerController(listModel, this);
         AddItemController addItemController = new AddItemController(listModel, this);
         EditItemController editItemController = new EditItemController(listModel, this);
+        SortListWindowController sortListWindowController = new SortListWindowController(listModel, this);
 
         Parent root;
 
@@ -52,6 +53,16 @@ public class SceneManager {
         try {
             root = loader.load();
             scenes.put("EditItemWindow.fxml", new Scene(root));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        loader = new FXMLLoader(getClass().getResource("SortListWindow.fxml"));
+        loader.setController(sortListWindowController);
+        try {
+            root = loader.load();
+            scenes.put("SortListWindow.fxml", new Scene(root));
         }
         catch (IOException e) {
             e.printStackTrace();

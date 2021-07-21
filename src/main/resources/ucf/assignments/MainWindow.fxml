@@ -31,9 +31,9 @@
    <center>
       <TableView fx:id="inventoryTable" editable="true" opacity="0.7" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="valueTableColumn" editable="false" prefWidth="133.0" resizable="false" text="Price ($)" />
-          <TableColumn fx:id="serialNumberTableColumn" editable="false" prefWidth="133.0" resizable="false" text="Serial Number" />
-            <TableColumn fx:id="nameTableColumn" editable="false" prefWidth="534.0" resizable="false" text="Name" />
+          <TableColumn fx:id="valueTableColumn" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Price ($)" />
+          <TableColumn fx:id="serialNumberTableColumn" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Serial Number" />
+            <TableColumn fx:id="nameTableColumn" editable="false" prefWidth="534.0" resizable="false" sortable="false" text="Name" />
         </columns>
       </TableView>
    </center>

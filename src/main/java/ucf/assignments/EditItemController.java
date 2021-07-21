@@ -56,7 +56,7 @@ public class EditItemController {
     //ToDo make it so that TextFields are initialized as the data retrieved from inventoryTable.selectionModel().getSelectedItem()
 
     @FXML
-    public void editConfirmButtonClicked(ActionEvent actionEvent) {
+    private void editConfirmButtonClicked(ActionEvent actionEvent) {
         String price = editPriceTextField.getText();
         String serialNumber = editSerialNumberTextField.getText();
         String name = editNameTextField.getText();

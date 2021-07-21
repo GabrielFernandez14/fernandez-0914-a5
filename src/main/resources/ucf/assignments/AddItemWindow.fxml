@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.0" prefWidth="800.0" style="-fx-background-color: lightpink;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.8" prefHeight="89.0" prefWidth="800.0" style="-fx-background-color: lightpink;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox layoutX="-4.0" layoutY="-2.0" prefHeight="62.0" prefWidth="800.0" spacing="10.0">
          <children>
@@ -30,7 +30,7 @@
                   <Font name="Futura-Medium" size="18.0" />
                </font>
             </TextField>
-            <JFXButton fx:id="confirmButton" buttonType="RAISED" onAction="#confirmButtonClicked" prefHeight="41.0" prefWidth="105.0" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Confirm" textFill="#185e10">
+            <JFXButton fx:id="confirmButton" buttonType="RAISED" onAction="#confirmButtonClicked" prefHeight="41.0" prefWidth="105.0" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Confirm" textFill="#6e750b">
                <font>
                   <Font name="Futura-Medium" size="20.0" />
                </font>
@@ -39,12 +39,12 @@
                      <stops>
                         <Stop>
                            <color>
-                              <Color red="0.4372360408306122" green="0.8026315569877625" blue="0.43104287981987" />
+                              <Color red="0.7614729404449463" green="0.800000011920929" blue="0.4320000112056732" />
                            </color>
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color red="0.6574074029922485" green="0.8327160477638245" blue="0.9342105388641357" />
+                              <Color red="0.6696000099182129" green="0.8425732851028442" blue="0.9300000071525574" />
                            </color>
                         </Stop>
                      </stops>

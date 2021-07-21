@@ -86,24 +86,36 @@ public class InventoryManagerController implements Initializable {
 
     @FXML
     public void deleteItemButtonClicked(ActionEvent actionEvent) {
-        if(inventoryTable.getSelectionModel().getSelectedItem() != null) {
+        if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
             listModel.getItems().remove(inventoryTable.getSelectionModel().getSelectedItem());
         }
     }
 
+    // ToDo need to make it so that it's not just an add method
     @FXML
     public void editItemButtonClicked(ActionEvent actionEvent) {
-        Stage stage = new Stage();
-        stage.setTitle("Edit Item");
-        stage.setResizable(false);
-        stage.setScene(sceneManager.getScene("EditItemWindow.fxml"));
-        stage.show();
+        if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
+            Stage stage = new Stage();
+            stage.setTitle("Edit Item");
+            stage.setResizable(false);
+            stage.setScene(sceneManager.getScene("EditItemWindow.fxml"));
+            stage.show();
+        }
+
+        //listModel.getItems().remove(inventoryTable.getSelectionModel().getSelectedItem());
 
         //inventoryTable.setItems(listModel.getItems());
     }
 
     @FXML
     public void sortListButtonClicked(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        stage.setTitle("Sort List");
+        stage.setResizable(false);
+        stage.setScene(sceneManager.getScene("SortListWindow.fxml"));
+        stage.show();
+
+        inventoryTable.setItems(listModel.getItems());
     }
 
     @FXML
