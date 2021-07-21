@@ -25,12 +25,6 @@
                   <MenuItem fx:id="quitMenuItem" mnemonicParsing="false" onAction="#quitMenuItemClicked" text="Quit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Search">
-            <items>
-              <MenuItem fx:id="searchNameMenuItem" mnemonicParsing="false" onAction="#searchNameMenuItemClicked" text="Name" />
-                  <MenuItem fx:id="searchSNMenuItem" mnemonicParsing="false" onAction="#searchSNMenuItemClicked" text="SerialNumber" />
-            </items>
-          </Menu>
         </menus>
       </MenuBar>
    </top>
@@ -44,9 +38,9 @@
       </TableView>
    </center>
    <bottom>
-      <HBox prefHeight="71.0" prefWidth="800.0" style="-fx-background-color: lightpink;" BorderPane.alignment="CENTER">
+      <HBox prefHeight="65.0" prefWidth="800.0" style="-fx-background-color: lightpink;" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton fx:id="addItemButton" buttonType="RAISED" onAction="#addItemButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#7cc965" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Add New Item" textFill="#36722e">
+            <JFXButton fx:id="addItemButton" buttonType="RAISED" onAction="#addItemButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#7cc965" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Add Item" textFill="#36722e">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -54,18 +48,46 @@
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
                <font>
-                  <Font name="Futura-Medium" size="36.0" />
+                  <Font name="Futura-Medium" size="21.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton fx:id="deleteItemButton" buttonType="RAISED" onAction="#deleteItemButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#c95e57" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Delete Selected Item" textFill="#973f3f">
+            <JFXButton fx:id="deleteItemButton" buttonType="RAISED" onAction="#deleteItemButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#c95e57" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Delete Item" textFill="#973f3f">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
                <font>
-                  <Font name="Futura-Medium" size="36.0" />
+                  <Font name="Futura-Medium" size="21.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+            <JFXButton fx:id="editItemButton" buttonType="RAISED" onAction="#editItemButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#c7be65" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Edit Item" textFill="#9a994a">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <font>
+                  <Font name="Futura-Medium" size="21.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+            <JFXButton fx:id="sortListButton" buttonType="RAISED" onAction="#sortListButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#6a65c7" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Sort List" textFill="#2e3270">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <font>
+                  <Font name="Futura-Medium" size="21.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />

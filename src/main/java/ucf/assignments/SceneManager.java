@@ -48,7 +48,7 @@ public class SceneManager {
         }
 
         loader = new FXMLLoader(getClass().getResource("EditItemWindow.fxml"));
-        loader.setController(addItemController);
+        loader.setController(editItemController);
         try {
             root = loader.load();
             scenes.put("EditItemWindow.fxml", new Scene(root));

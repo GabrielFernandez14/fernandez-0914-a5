@@ -92,6 +92,21 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
+    public void editItemButtonClicked(ActionEvent actionEvent) {
+        Stage stage = new Stage();
+        stage.setTitle("Edit Item");
+        stage.setResizable(false);
+        stage.setScene(sceneManager.getScene("EditItemWindow.fxml"));
+        stage.show();
+
+        //inventoryTable.setItems(listModel.getItems());
+    }
+
+    @FXML
+    public void sortListButtonClicked(ActionEvent actionEvent) {
+    }
+
+    @FXML
     public void saveAsMenuItemClicked(ActionEvent actionEvent) {
     }
 
@@ -102,13 +117,4 @@ public class InventoryManagerController implements Initializable {
     @FXML
     public void quitMenuItemClicked(ActionEvent actionEvent) {
     }
-
-    @FXML
-    public void searchNameMenuItemClicked(ActionEvent actionEvent) {
-    }
-
-    @FXML
-    public void searchSNMenuItemClicked(ActionEvent actionEvent) {
-    }
-
 }
