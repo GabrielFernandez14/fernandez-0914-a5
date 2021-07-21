@@ -53,6 +53,8 @@ public class EditItemController {
         this.sceneManager = sceneManager;
     }
 
+    //ToDo make it so that TextFields are initialized as the data retrieved from inventoryTable.selectionModel().getSelectedItem()
+
     @FXML
     public void editConfirmButtonClicked(ActionEvent actionEvent) {
         String price = editPriceTextField.getText();
@@ -68,6 +70,7 @@ public class EditItemController {
         BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
                 .setScale(2, RoundingMode.HALF_UP);
 
+        //ToDo make it so that the items are being added to the correct index
         listModel.getItems().add(new InventoryItem(priceBigDecimal, serialNumber, name));
 
         editPriceTextField.clear();
