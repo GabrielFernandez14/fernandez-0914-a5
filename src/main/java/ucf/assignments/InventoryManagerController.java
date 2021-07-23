@@ -81,7 +81,7 @@ public class InventoryManagerController implements Initializable {
 
         inventoryTable.setItems(listModel.getItems());
 
-        /* Can't get CSS working
+        /* Can't get CSS working (because you need an actual CSS file dumbass)
         ScrollBar scrollBar = (ScrollBar) inventoryTable.lookup(".scroll-bar:horizontal");
         if (scrollBar != null) {
             scrollBar.setStyle("-fx-background-color: transparent;");
@@ -127,24 +127,25 @@ public class InventoryManagerController implements Initializable {
     public void saveAsMenuItemClicked(ActionEvent actionEvent) {
         FileManager save = new FileManager();
 
+        save.saveFile(listModel);
+        /*
         String getPath = save.saveFile();
 
         if (!getPath.equals("")) {
-            FileManager.writeToFile(getPath, listModel);
+            save.writeToFile(getPath, listModel);
         }
+         */
     }
 
     @FXML
     public void openMenuItemClicked(ActionEvent actionEvent) {
     }
 
+    // ToDo this doesn't work, need a different event handler
     @FXML
     public void searchBarTextFieldTyped(ActionEvent actionEvent) {
         // Set up search bar
         // I feel like everyone probably used the same tutorial for this
-        // ToDo this doesn't work, needs to be put somewhere else in the controller
-        //  since it's in the initializer, it is only called once and doesn't acknowledge
-        //  "items" being updated
         FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
 
         searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {

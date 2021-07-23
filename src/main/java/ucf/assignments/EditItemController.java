@@ -123,7 +123,7 @@ public class EditItemController {
             printError(error7);
             return false;
         }
-        else if (name.length() <= 2) {
+        else if (name.length() < 2) {
             printError(error8);
             return false;
         }

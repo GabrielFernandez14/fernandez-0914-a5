@@ -7,20 +7,23 @@ package ucf.assignments;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddItemController {
+public class AddItemController implements Initializable {
     private InventoryListModel listModel;
     private SceneManager sceneManager;
 
@@ -45,6 +48,11 @@ public class AddItemController {
     private TextField nameTextField;
     @FXML
     private Label errorLabel;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        errorLabel.setText("");
+    }
 
     public AddItemController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
@@ -116,7 +124,7 @@ public class AddItemController {
             printError(error7);
             return false;
         }
-        else if (name.length() <= 2) {
+        else if (name.length() < 2) {
             printError(error8);
             return false;
         }
