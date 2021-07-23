@@ -68,36 +68,8 @@ public class InventoryManagerController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, BigDecimal>("price"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("serialNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("name"));
-
-        // Set up search bar
-        // I feel like everyone probably used the same tutorial for this
-        // ToDo this works, but needs to be put somewhere else in the controller
-        FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
-
-        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(inventoryItem -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String toLowerCase = newValue.toLowerCase();
-
-                if (inventoryItem.getSerialNumber().toLowerCase().contains(toLowerCase)) {
-                    return true;
-                }
-                else if (inventoryItem.getName().toLowerCase().contains(toLowerCase)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            });
-        });
-
-        SortedList<InventoryItem> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(inventoryTable.comparatorProperty());
-        inventoryTable.setItems(sortedData);
     }
+
 
     @FXML
     public void addItemButtonClicked(ActionEvent actionEvent) {
@@ -166,8 +138,41 @@ public class InventoryManagerController implements Initializable {
     public void openMenuItemClicked(ActionEvent actionEvent) {
     }
 
-    @FXML public void clearSearchBarButtonClicked(ActionEvent actionEvent) {
+    @FXML
+    public void searchBarTextFieldTyped(ActionEvent actionEvent) {
+        // Set up search bar
+        // I feel like everyone probably used the same tutorial for this
+        // ToDo this doesn't work, needs to be put somewhere else in the controller
+        //  since it's in the initializer, it is only called once and doesn't acknowledge
+        //  "items" being updated
+        FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
 
+        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(inventoryItem -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String toLowerCase = newValue.toLowerCase();
+
+                if (inventoryItem.getSerialNumber().toLowerCase().contains(toLowerCase)) {
+                    return true;
+                }
+                else if (inventoryItem.getName().toLowerCase().contains(toLowerCase)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        SortedList<InventoryItem> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(inventoryTable.comparatorProperty());
+        inventoryTable.setItems(sortedData);
+    }
+
+    @FXML
+    public void clearSearchBarButtonClicked(ActionEvent actionEvent) {
+        searchBarTextField.setText("");
     }
 
     @FXML

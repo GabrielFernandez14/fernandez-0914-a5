@@ -19,6 +19,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +39,7 @@ public class EditItemController {
     private final String error9 = "Error: The new name exceeds the character limit.";
     private final String error10 = "Error: Price is not formatted correctly.";
     private final String error11 = "Error: Serial number is not formatted correctly.";
+    private final String error12 = "Error: Serial number already exists.";
 
     @FXML
     private TextField editPriceTextField;
@@ -88,6 +90,11 @@ public class EditItemController {
         Matcher serialNumberMatcher = pattern.matcher(serialNumber);
         boolean containsSpecialCharacters = serialNumberMatcher.find();
 
+        ArrayList<String> serialNumbers = new ArrayList<>();
+        for (int i = 0; i < listModel.getItems().size(); i++) {
+            serialNumbers.add(listModel.getItems().get(i).getSerialNumber());
+        }
+
         if (price.equals("") && serialNumber.equals("") && name.equals("")) {
             printError(error1);
             return false;
@@ -130,6 +137,11 @@ public class EditItemController {
         }
         else if (serialNumber.length() != 10 || containsSpecialCharacters) {
             printError(error11);
+            return false;
+        }
+        else if (serialNumbers.contains(serialNumber)) {
+            printError(error12);
+            serialNumbers.equals(null);
             return false;
         }
 

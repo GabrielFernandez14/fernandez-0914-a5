@@ -34,14 +34,14 @@
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="inventoryTable" editable="true" layoutY="43.0" opacity="0.7" prefHeight="464.0" prefWidth="800.0">
+            <TableView fx:id="inventoryTable" editable="true" layoutY="46.0" opacity="0.7" prefHeight="461.0" prefWidth="800.0">
               <columns>
                 <TableColumn fx:id="valueTableColumn" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Value ($)" />
                 <TableColumn fx:id="serialNumberTableColumn" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Serial Number" />
                   <TableColumn fx:id="nameTableColumn" editable="false" prefWidth="534.0" resizable="false" sortable="false" text="Name" />
               </columns>
             </TableView>
-            <TextField fx:id="searchBarTextField" layoutX="96.0" layoutY="12.0" prefHeight="25.0" prefWidth="609.0" promptText="Search by Serial Number or Name" style="-fx-background-color: pink; -fx-background-radius: 15;">
+            <TextField fx:id="searchBarTextField" layoutX="96.0" layoutY="12.0" onKeyTyped="#searchBarTextFieldTyped" prefHeight="25.0" prefWidth="609.0" promptText="Search by Serial Number or Name" style="-fx-background-color: pink; -fx-background-radius: 15;">
                <font>
                   <Font name="Futura-Medium" size="12.0" />
                </font>
@@ -53,7 +53,7 @@
             </Label>
             <JFXButton fx:id="clearSearchBarButton" buttonType="RAISED" layoutX="716.0" layoutY="11.0" onAction="#clearSearchBarButtonClicked" prefHeight="26.0" prefWidth="76.0" ripplerFill="#b9792b" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Clear" textFill="#b22b2b">
                <font>
-                  <Font name="Futura-Medium" size="16.0" />
+                  <Font name="Futura-Medium" size="15.0" />
                </font>
             </JFXButton>
          </children>

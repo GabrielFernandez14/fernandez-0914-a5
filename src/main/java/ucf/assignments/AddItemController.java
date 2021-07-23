@@ -16,6 +16,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +35,7 @@ public class AddItemController {
     private final String error9 = "Error: The name exceeds the character limit.";
     private final String error10 = "Error: Price is not formatted correctly.";
     private final String error11 = "Error: Serial number is not formatted correctly.";
+    private final String error12 = "Error: Serial number already exists.";
 
     @FXML
     private TextField priceTextField;
@@ -63,6 +65,7 @@ public class AddItemController {
     private void commitToList(String price, String serialNumber, String name) {
         BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
                 .setScale(2, RoundingMode.HALF_UP);
+
         listModel.getItems().add(new InventoryItem(priceBigDecimal, serialNumber, name));
 
         priceTextField.clear();
@@ -79,6 +82,11 @@ public class AddItemController {
 
         Matcher serialNumberMatcher = pattern.matcher(serialNumber);
         boolean containsSpecialCharacters = serialNumberMatcher.find();
+
+        ArrayList<String> serialNumbers = new ArrayList<>();
+        for (int i = 0; i < listModel.getItems().size(); i++) {
+            serialNumbers.add(listModel.getItems().get(i).getSerialNumber());
+        }
 
         if (price.equals("") && serialNumber.equals("") && name.equals("")) {
             printError(error1);
@@ -122,6 +130,11 @@ public class AddItemController {
         }
         else if (serialNumber.length() != 10 || containsSpecialCharacters) {
             printError(error11);
+            return false;
+        }
+        else if (serialNumbers.contains(serialNumber)) {
+            printError(error12);
+            serialNumbers.equals(null);
             return false;
         }
 
