@@ -8,14 +8,13 @@ package ucf.assignments;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -23,6 +22,7 @@ import javax.swing.*;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Filter;
 
 public class InventoryManagerController implements Initializable {
     @FXML
@@ -33,6 +33,10 @@ public class InventoryManagerController implements Initializable {
     private TableColumn<InventoryItem, String> serialNumberTableColumn;
     @FXML
     private TableColumn<InventoryItem, String> nameTableColumn;
+    @FXML
+    private TextField searchBarTextField;
+    @FXML
+    private JFXButton clearSearchBarButton;
     @FXML
     private JFXButton addItemButton;
     @FXML
@@ -64,6 +68,35 @@ public class InventoryManagerController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, BigDecimal>("price"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("serialNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("name"));
+
+        // Set up search bar
+        // I feel like everyone probably used the same tutorial for this
+        // ToDo this works, but needs to be put somewhere else in the controller
+        FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
+
+        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(inventoryItem -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String toLowerCase = newValue.toLowerCase();
+
+                if (inventoryItem.getSerialNumber().toLowerCase().contains(toLowerCase)) {
+                    return true;
+                }
+                else if (inventoryItem.getName().toLowerCase().contains(toLowerCase)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            });
+        });
+
+        SortedList<InventoryItem> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(inventoryTable.comparatorProperty());
+        inventoryTable.setItems(sortedData);
     }
 
     @FXML
@@ -133,7 +166,15 @@ public class InventoryManagerController implements Initializable {
     public void openMenuItemClicked(ActionEvent actionEvent) {
     }
 
+    @FXML public void clearSearchBarButtonClicked(ActionEvent actionEvent) {
+
+    }
+
     @FXML
     public void quitMenuItemClicked(ActionEvent actionEvent) {
+        // Only closes the main window, if other windows are open they need
+        // to be closed manually
+        Stage stage = (Stage) addItemButton.getScene().getWindow();
+        stage.close();
     }
 }
