@@ -64,6 +64,7 @@ public class EditItemController {
         String name = editNameTextField.getText();
 
         if (inputIsValid(price, serialNumber, name)) {
+            editErrorLabel.setText("");
             commitToList(price, serialNumber, name);
         }
     }

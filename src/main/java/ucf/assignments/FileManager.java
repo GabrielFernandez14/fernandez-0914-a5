@@ -6,8 +6,6 @@
 package ucf.assignments;
 
 import javafx.stage.FileChooser;
-
-import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,8 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class FileManager {
-    private InventoryListModel listModel;
-
     public void saveFile(InventoryListModel listModel) {
         FileChooser fileChooser = new FileChooser();
 
@@ -28,8 +24,6 @@ public class FileManager {
         fileChooser.setInitialFileName("InventoryList");
 
         File file = fileChooser.showSaveDialog(null);
-
-        //fileChooser.getSelectedExtensionFilter().equals("*.txt");
 
         if (fileChooser.getSelectedExtensionFilter() != null
                 && fileChooser.getSelectedExtensionFilter().getExtensions() != null) {
@@ -82,5 +76,19 @@ public class FileManager {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadFile() {
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("TSV file (.txt)", "*.txt"),
+                new FileChooser.ExtensionFilter("HTML file (.html)", "*.html")
+        );
+        fileChooser.setTitle("Load Inventory List");
+        File file = fileChooser.showOpenDialog(null);
+
+        // Find a way to differentiate between file types
+        
     }
 }

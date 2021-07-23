@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Filter;
 
@@ -126,19 +127,16 @@ public class InventoryManagerController implements Initializable {
     @FXML
     public void saveAsMenuItemClicked(ActionEvent actionEvent) {
         FileManager save = new FileManager();
-
         save.saveFile(listModel);
-        /*
-        String getPath = save.saveFile();
-
-        if (!getPath.equals("")) {
-            save.writeToFile(getPath, listModel);
-        }
-         */
     }
 
     @FXML
     public void openMenuItemClicked(ActionEvent actionEvent) {
+        FileManager open = new FileManager();
+
+        open.loadFile();
+
+        inventoryTable.setItems(listModel.getItems());
     }
 
     // ToDo this doesn't work, need a different event handler

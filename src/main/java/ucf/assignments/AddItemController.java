@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddItemController implements Initializable {
+public class AddItemController {
     private InventoryListModel listModel;
     private SceneManager sceneManager;
 
@@ -49,11 +49,6 @@ public class AddItemController implements Initializable {
     @FXML
     private Label errorLabel;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        errorLabel.setText("");
-    }
-
     public AddItemController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
         this.sceneManager = sceneManager;
@@ -66,6 +61,7 @@ public class AddItemController implements Initializable {
         String name = nameTextField.getText();
 
         if (inputIsValid(price, serialNumber, name)) {
+            errorLabel.setText("");
             commitToList(price, serialNumber, name);
         }
     }
