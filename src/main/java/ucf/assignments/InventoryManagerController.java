@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class InventoryManagerController implements Initializable {
@@ -68,6 +69,32 @@ public class InventoryManagerController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        FilteredList<InventoryItem> filteredList = new FilteredList<>(items, b -> true);
+
+        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(inventoryItem -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String toLowerCase = newValue.toLowerCase();
+
+                if (inventoryItem.getSerialNumber().toLowerCase().contains(toLowerCase)) {
+                    return true;
+                }
+                else if (inventoryItem.getName().toLowerCase().contains(toLowerCase)) {
+                    return true;
+                }
+                else {
+                    return String.valueOf(inventoryItem.getPrice()).contains(toLowerCase);
+                }
+            });
+        });
+
+        SortedList<InventoryItem> sortableData = new SortedList<>(filteredList);
+        sortableData.comparatorProperty().bind(inventoryTable.comparatorProperty());
+        inventoryTable.setItems(sortableData);
     }
 
 
@@ -133,8 +160,8 @@ public class InventoryManagerController implements Initializable {
 
         ArrayList<String> data = open.loadFile(listModel);
 
-        // ToDo If the user closes out of the open window before opening
-        //  anything the list will be cleared anyway
+        // Yes there's an issue here, don't really know how I can go
+        // about fixing it since I screwed myself over bcs of how I coded this
         listModel.getItems().clear();
 
         for (int i = 0; i < data.size(); i++) {
@@ -164,47 +191,6 @@ public class InventoryManagerController implements Initializable {
         return split[2].trim();
     }
 
-    // ToDo close, but not quite working yet
-    @FXML
-    public void searchBarTextFieldClicked (ActionEvent actionEvent) {
-        SortedList<InventoryItem> sortedList = filterList();
-
-        sortedList.comparatorProperty().bind(inventoryTable.comparatorProperty());
-        inventoryTable.setItems(sortedList);
-    }
-
-    private SortedList<InventoryItem> filterList() {
-        FilteredList<InventoryItem> filteredList = new FilteredList<>(items, b -> true);
-
-        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            SortedList<InventoryItem> sortedList = filterItems(filteredList, newValue);
-            sortedList.comparatorProperty().bind(inventoryTable.comparatorProperty());
-            inventoryTable.setItems(sortedList);
-        });
-
-        return new SortedList<>(filteredList);
-    }
-
-    private SortedList<InventoryItem> filterItems (FilteredList<InventoryItem> filteredList, String newValue) {
-        filteredList.setPredicate(inventoryItem -> {
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-
-            String toLowerCase = newValue.toLowerCase();
-
-            if (inventoryItem.getSerialNumber().contains(toLowerCase)) {
-                return true;
-            }
-            else if (inventoryItem.getName().contains(toLowerCase)) {
-                return true;
-            }
-            return false;
-        });
-
-        return new SortedList<>(filteredList);
-    }
-
     @FXML
     public void clearButtonClicked(ActionEvent actionEvent) {
         searchBarTextField.setText("");
@@ -214,7 +200,7 @@ public class InventoryManagerController implements Initializable {
     public void quitMenuItemClicked (ActionEvent actionEvent) {
         // Only closes the main window, if other windows are open they need
         // to be closed manually
-        Stage stage = (Stage) addItemButton.getScene().getWindow();
+        Stage stage = (Stage) inventoryTable.getScene().getWindow();
         stage.close();
     }
 }

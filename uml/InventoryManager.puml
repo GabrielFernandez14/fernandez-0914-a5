@@ -18,7 +18,7 @@ class InventoryManagerController {
     - @FXML serialNumberTableColumn: TableColumn<InventoryItem, String>
     - @FXML nameTableColumn: TableColumn<InventoryItem, String>
     - @FXML searchBarTextField: TextField
-    - @FXML clearSearchBarButton: JFXButton
+    - @FXML clearButton: JFXButton
     - @FXML addItemButton: JFXButton
     - @FXML deleteItemButton: JFXButton
     - @FXML editItemButton: JFXButton
@@ -30,22 +30,17 @@ class InventoryManagerController {
     - sceneManager: SceneManager
     - listModel: InventoryListModel
     - items: ObservableList<InventoryItem>
-    'ToDo fix the search method
-    - filteredData: FilteredList<InventoryItem>
 
     + InventoryManagerController(listModel, sceneManager)
     + @Override initialize(URL location, ResourceBundle resources)
     + @FXML addItemButtonClicked(ActionEvent actionEvent)
     + @FXML deleteItemButtonClicked(ActionEvent actionEvent)
-    ' ToDo make an edit method that works
     + @FXML editItemButtonClicked(ActionEvent actionEvent)
     + @FXML sortListButtonClicked(ActionEvent actionEvent)
     + @FXML saveAsMenuItemClicked(ActionEvent actionEvent)
     + @FXML openMenuItemClicked(ActionEvent actionEvent)
     + @FXML quitMenuItemClicked(ActionEvent actionEvent)
-    ' ToDo needs different EventHandler (SceneBuilder?)
-    + @FXML searchBarTextFieldTyped(ActionEvent actionEvent)
-    + @FXML clearSearchBarButtonClicked(ActionEvent actionEvent)
+    + @FXML clearButtonClicked(ActionEvent actionEvent)
 
     - readValue(ArrayList<String> fileItem, int index): BigDecimal
     - readSerialNumber(ArrayList<String> fileItem, int index): String
@@ -78,26 +73,14 @@ class AddItemController {
     - listModel: InventoryListModel
     - sceneManager: SceneManager
 
-    - error1: String
-    - error2: String
-    - error3: String
-    - error4: String
-    - error5: String
-    - error6: String
-    - error7: String
-    - error8: String
-    - error9: String
-    - error10: String
-    - error11: String
-    - error12: String
-
     - @FXML priceTextField: TextField
     - @FXML serialNumberTextField: TextField
     - @FXML nameTextField: TextField
     - @FXML errorLabel: Label
 
     + AddItemController(listModel, sceneManager)
-    + @FXML confirmButtonClicked((ActionEvent actionEvent)
+
+    - @FXML confirmButtonClicked((ActionEvent actionEvent)
 
     - commitToList(String price, String serialNumber, String name)
     - inputIsValid(String price, String serialNumber, String name): boolean
@@ -105,7 +88,21 @@ class AddItemController {
 }
 
 class EditItemController {
-    'ToDo get EditItemController working first
+    - listModel: InventoryListModel
+    - selectedItem: InventoryItem
+    - controller: InventoryManagerController
+
+    - @FXML editPriceTextField: TextField
+    - @FXML editSerialNumberTextField: TextField
+    - @FXML editNameTextField: TextField
+    - @FXML editErrorLabel: Label
+
+    + setData(InventoryManagerController parent, listModel, selectedItem)
+
+    - @FXML confirmButtonClicked(ActionEvent actionEvent)
+    - commitToList(String price, String serialNumber, String name)
+    - inputIsValid(String price, String serialNumber, String name): boolean
+    - printError(String prompt)
 }
 
 class SortListController {
@@ -118,9 +115,9 @@ class SortListController {
 
     + SortListController(listModel, sceneManager)
 
-    - sortByValueButtonClicked((ActionEvent actionEvent)
-    - sortBySNButtonClicked((ActionEvent actionEvent)
-    - sortByNameButtonClicked((ActionEvent actionEvent)
+    - @FXML sortByValueButtonClicked((ActionEvent actionEvent)
+    - @FXML sortBySNButtonClicked((ActionEvent actionEvent)
+    - @FXML sortByNameButtonClicked((ActionEvent actionEvent)
 }
 
 class FileManager {
@@ -137,8 +134,8 @@ openjfx.org.Application <|-- InventoryManager
 InventoryManager -- SceneManager
 SceneManager -- InventoryManagerController
 SceneManager -- AddItemController
-SceneManager -- EditItemController
 SceneManager -- SortListController
+EditItemController -- InventoryManagerController
 InventoryManagerController o-- InventoryListModel
 InventoryManagerController -- FileManager
 AddItemController o-- InventoryListModel

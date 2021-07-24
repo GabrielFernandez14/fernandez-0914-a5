@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
+    public String path;
+
     public void saveFile(InventoryListModel listModel) {
         FileChooser fileChooser = new FileChooser();
 
@@ -86,10 +88,10 @@ public class FileManager {
                 new FileChooser.ExtensionFilter("TSV file (.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("HTML file (.html)", "*.html")
         );
+
         fileChooser.setTitle("Load Inventory List");
         File file = fileChooser.showOpenDialog(null);
 
-        // Find a way to differentiate between file types
         if (file != null) {
             try {
                 fileExtension = Files.probeContentType(file.toPath());
@@ -99,7 +101,6 @@ public class FileManager {
             }
         }
 
-        //System.out.println(fileExtension);
         if (fileExtension.equals("text/plain")) {
             getData = loadFromText(file.getAbsolutePath());
         }

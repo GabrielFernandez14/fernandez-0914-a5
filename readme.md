@@ -12,7 +12,7 @@ input that is valid, the program will close the window, and the addition will be
 window's TableView.
 #### Errors
 - The user cannot commit their input if any (or all) of the TextFields are empty
-- The price TextField must be either a whole number or an integer, (either 10 or 10.512).
+- The price TextField must be either a whole number or an integer, (i.e. either 10 or 10.512).
 - The Serial Number TextField cannot be a duplicate with an already existing Serial Number in the
 main window's TableView
 - The Serial Number must follow the format specification of XXXXXXXXXX (length 10), where X is either a letter or
@@ -28,11 +28,11 @@ can press the delete button on the bottom of the main window, and the selected i
 ### Using the Edit Button
 The Edit Button works similarly to the Add Button, but with a few important changes. Primarily, the Edit window
 will not launch unless the user has selected an item inside the TableView for editing. Once the user has selected
-an item that they wish to edit, they can then press the Edit Item button, and a new window will pop up. This window is
-purposely very similar to the Add Window; however, this window is initialized with the selected item's values inside
-the TextFields. The user can then make any desired changes and press the confirm button to close the Edit window and update 
-the selected item's data on the selected location of the TableView. Like the Add Window, the user will not be able to proceed 
-if any of the data does not meet the application's data requirements specifications. 
+an item that they wish to edit, they can then press the Edit Item button, and a new window will pop up. This window is 
+initialized with the selected item's values inside the TextFields. The user can then make any desired changes and press the 
+confirm button to close the Edit window and update the selected item's data on the selected location of the TableView. 
+Like the Add Window, the user will not be able to proceed if any of the data does not meet the application's data requirements 
+specifications. 
 
 ### Sorting the Table
 If the user wishes to sort the list by value, serial number or name, they must first populate the list, then the user can

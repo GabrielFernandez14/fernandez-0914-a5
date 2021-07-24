@@ -113,7 +113,7 @@ public class AddItemController {
             printError("Error: The new name exceeds the character limit.");
             return false;
         }
-        else if (price.matches(alphaRegex)) {
+        else if (price.matches(alphaRegex) || containsSpecialCharacters) {
             printError(priceFormatError);
             return false;
         }
@@ -123,21 +123,6 @@ public class AddItemController {
         }
         else if (serialNumbers.contains(serialNumber)) {
             printError("Error: Serial number already exists.");
-            return false;
-        }
-
-        // This is a very overcomplicated way of checking that
-        // the input is valid as a BigDecimal
-        // Is this even needed? I have no idea
-        try {
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-            symbols.setDecimalSeparator('.');
-            DecimalFormat df = new DecimalFormat("#0.00", symbols);
-            df.setParseBigDecimal(true);
-            df.parse(price);
-        }
-        catch (ParseException e) {
-            printError(priceFormatError);
             return false;
         }
 
