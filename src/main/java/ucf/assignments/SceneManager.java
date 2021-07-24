@@ -17,14 +17,14 @@ import java.util.Map;
 public class SceneManager {
     Map<String, Scene> scenes = new HashMap<>();
 
-    void load() {
+    public void load() {
         // What the heck do this do
         InventoryListModel listModel = new InventoryListModel();
 
         InventoryManagerController inventoryManagerController = new InventoryManagerController(listModel, this);
         AddItemController addItemController = new AddItemController(listModel, this);
         EditItemController editItemController = new EditItemController(listModel, this);
-        SortListWindowController sortListWindowController = new SortListWindowController(listModel, this);
+        SortListController sortListController = new SortListController(listModel, this);
 
         Parent root;
 
@@ -59,7 +59,7 @@ public class SceneManager {
         }
 
         loader = new FXMLLoader(getClass().getResource("SortListWindow.fxml"));
-        loader.setController(sortListWindowController);
+        loader.setController(sortListController);
         try {
             root = loader.load();
             scenes.put("SortListWindow.fxml", new Scene(root));

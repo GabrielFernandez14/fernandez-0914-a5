@@ -102,16 +102,16 @@ public class FileManager {
 
         //System.out.println(fileExtension);
         if (fileExtension.equals("text/plain")) {
-            getData = loadFromText(file.getAbsolutePath(), listModel);
+            getData = loadFromText(file.getAbsolutePath());
         }
         else if (fileExtension.equals("text/html")) {
-            getData = loadFromHTML(file.getAbsolutePath(), listModel);
+            getData = loadFromHTML(file.getAbsolutePath());
         }
 
         return getData;
     }
 
-    private ArrayList<String> loadFromText(String path, InventoryListModel listModel) {
+    private ArrayList<String> loadFromText(String path) {
         ArrayList<String> loadItems = new ArrayList<>();
 
         try {
@@ -131,7 +131,7 @@ public class FileManager {
         return loadItems;
     }
 
-    private ArrayList<String> loadFromHTML(String path, InventoryListModel listModel) {
+    private ArrayList<String> loadFromHTML(String path) {
         ArrayList<String> loadItems = new ArrayList<>();
 
         try {

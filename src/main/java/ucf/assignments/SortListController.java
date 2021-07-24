@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.util.Comparator;
 
-public class SortListWindowController {
+public class SortListController {
     private InventoryListModel listModel;
     private SceneManager sceneManager;
 
@@ -19,7 +19,7 @@ public class SortListWindowController {
     @FXML
     private Button sortByNameButton;
 
-    public SortListWindowController(InventoryListModel listModel, SceneManager sceneManager) {
+    public SortListController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
         this.sceneManager = sceneManager;
     }

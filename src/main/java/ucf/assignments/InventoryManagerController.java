@@ -44,6 +44,10 @@ public class InventoryManagerController implements Initializable {
     @FXML
     private JFXButton deleteItemButton;
     @FXML
+    private JFXButton editItemButton;
+    @FXML
+    private JFXButton sortListButton;
+    @FXML
     private MenuItem saveAsMenuItem;
     @FXML
     private MenuItem openMenuItem;
@@ -51,12 +55,11 @@ public class InventoryManagerController implements Initializable {
     private MenuItem quitMenuItem;
     @FXML
     private MenuItem searchNameMenuItem;
-    @FXML
-    private MenuItem searchSNMenuItem;
 
     private SceneManager sceneManager;
     private InventoryListModel listModel;
     private ObservableList<InventoryItem> items;
+    private FilteredList<InventoryItem> filteredData;
 
     public InventoryManagerController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
@@ -170,9 +173,8 @@ public class InventoryManagerController implements Initializable {
     @FXML
     public void searchBarTextFieldTyped(ActionEvent actionEvent) {
         // Set up search bar
+        filteredData = new FilteredList<>(items, b -> true);
         // I feel like everyone probably used the same tutorial for this
-        FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
-
         searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(inventoryItem -> {
                 if (newValue == null || newValue.isEmpty()) {

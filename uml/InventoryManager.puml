@@ -1,27 +1,148 @@
 @startuml
-'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
-
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+class InventoryManager {
+    + main()
+    + start()
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class SceneManager {
+    + scenes: Map<String, Scene>
+
+    + load()
+    + getScene(String name)
 }
 
+class InventoryManagerController {
+    - @FXML inventoryTable: TableView<InventoryItem>
+    - @FXML valueTableColumn: TableColumn<InventoryItem, BigDecimal>
+    - @FXML serialNumberTableColumn: TableColumn<InventoryItem, String>
+    - @FXML nameTableColumn: TableColumn<InventoryItem, String>
+    - @FXML searchBarTextField: TextField
+    - @FXML clearSearchBarButton: JFXButton
+    - @FXML addItemButton: JFXButton
+    - @FXML deleteItemButton: JFXButton
+    - @FXML editItemButton: JFXButton
+    - @FXML sortListButton: JFXButton
+    - @FXML saveAsMenuItem: MenuItem
+    - @FXML openMenuItem: MenuItem
+    - @FXML quitMenuItem: MenuItem
+
+    - sceneManager: SceneManager
+    - listModel: InventoryListModel
+    - items: ObservableList<InventoryItem>
+    'ToDo fix the search method
+    - filteredData: FilteredList<InventoryItem>
+
+    + InventoryManagerController(listModel, sceneManager)
+    + @Override initialize(URL location, ResourceBundle resources)
+    + @FXML addItemButtonClicked(ActionEvent actionEvent)
+    + @FXML deleteItemButtonClicked(ActionEvent actionEvent)
+    ' ToDo make an edit method that works
+    + @FXML editItemButtonClicked(ActionEvent actionEvent)
+    + @FXML sortListButtonClicked(ActionEvent actionEvent)
+    + @FXML saveAsMenuItemClicked(ActionEvent actionEvent)
+    + @FXML openMenuItemClicked(ActionEvent actionEvent)
+    + @FXML quitMenuItemClicked(ActionEvent actionEvent)
+    ' ToDo needs different EventHandler (SceneBuilder?)
+    + @FXML searchBarTextFieldTyped(ActionEvent actionEvent)
+    + @FXML clearSearchBarButtonClicked(ActionEvent actionEvent)
+
+    - readValue(ArrayList<String> fileItem, int index): BigDecimal
+    - readSerialNumber(ArrayList<String> fileItem, int index): String
+    - readString(ArrayList<String> fileItem, int index): String
+}
+
+class InventoryListModel {
+    + items: ObservableList<InventoryItem>
+
+    + InventoryListModel()
+    + InventoryListModel(items)
+    + getItems(): ObservableList<InventoryItem>
+}
+
+class InventoryItem {
+    - price: BigDecimal
+    - serialNumber: String
+    - name: String
+
+    + InventoryItem(price, serialNumber, name)
+    + getName(): String
+    + setName(name)
+    + getSerialNumber(): String
+    + setSerialNumber(serialNumber)
+    + getPrice(): BigDecimal
+    + setPrice(price)
+}
+
+class AddItemController {
+    - listModel: InventoryListModel
+    - sceneManager: SceneManager
+
+    - error1: String
+    - error2: String
+    - error3: String
+    - error4: String
+    - error5: String
+    - error6: String
+    - error7: String
+    - error8: String
+    - error9: String
+    - error10: String
+    - error11: String
+    - error12: String
+
+    - @FXML priceTextField: TextField
+    - @FXML serialNumberTextField: TextField
+    - @FXML nameTextField: TextField
+    - @FXML errorLabel: Label
+
+    + AddItemController(listModel, sceneManager)
+    + @FXML confirmButtonClicked((ActionEvent actionEvent)
+
+    - commitToList(String price, String serialNumber, String name)
+    - inputIsValid(String price, String serialNumber, String name): boolean
+    - printError(String prompt)
+}
+
+class EditItemController {
+    'ToDo get EditItemController working first
+}
+
+class SortListController {
+    - listModel: InventoryListModel
+    - sceneManager: SceneManager
+
+    - @FXML sortByValueButton: Button
+    - @FXML sortBySNButton: Button
+    - @FXML sortByNameButton: Button
+
+    + SortListController(listModel, sceneManager)
+
+    - sortByValueButtonClicked((ActionEvent actionEvent)
+    - sortBySNButtonClicked((ActionEvent actionEvent)
+    - sortByNameButtonClicked((ActionEvent actionEvent)
+}
+
+class FileManager {
+    + saveFile(listModel)
+    + loadFile(listModel): ArrayList<String>
+
+    - writeToText(String path, listModel)
+    - writeToHTML(String path, listModel)
+    - loadFromText(String path): ArrayList<String>
+    - loadFromHTML(String path): ArrayList<String>
+}
+
+openjfx.org.Application <|-- InventoryManager
+InventoryManager -- SceneManager
+SceneManager -- InventoryManagerController
+SceneManager -- AddItemController
+SceneManager -- EditItemController
+SceneManager -- SortListController
+InventoryManagerController o-- InventoryListModel
+InventoryManagerController -- FileManager
+AddItemController o-- InventoryListModel
+EditItemController o-- InventoryListModel
+SortListController o-- InventoryListModel
+InventoryListModel *== InventoryItem
 @enduml
