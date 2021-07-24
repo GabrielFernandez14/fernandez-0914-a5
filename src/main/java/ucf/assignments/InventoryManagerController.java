@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -134,9 +135,32 @@ public class InventoryManagerController implements Initializable {
     public void openMenuItemClicked(ActionEvent actionEvent) {
         FileManager open = new FileManager();
 
-        open.loadFile();
+        ArrayList<String> data = open.loadFile(listModel);
+
+        listModel.getItems().clear();
+
+        for (int i = 0; i < data.size(); i++) {
+            BigDecimal curPrice = readValue(data, i);
+            String curSerialNumber = readSerialNumber(data, i);
+            String curName = readName(data, i);
+
+            listModel.getItems().add(new InventoryItem(curPrice, curSerialNumber, curName));
+        }
 
         inventoryTable.setItems(listModel.getItems());
+    }
+
+    private BigDecimal readValue (ArrayList<String> fileItem, int index) {
+        String[] split = fileItem.get(index).split("\t");
+        return BigDecimal.valueOf(Double.parseDouble(split[0].trim()));
+    }
+    private String readSerialNumber (ArrayList<String> fileItem, int index) {
+        String[] split = fileItem.get(index).split("\t");
+        return split[1].trim();
+    }
+    private String readName (ArrayList<String> fileItem, int index) {
+        String[] split = fileItem.get(index).split("\t");
+        return split[2].trim();
     }
 
     // ToDo this doesn't work, need a different event handler

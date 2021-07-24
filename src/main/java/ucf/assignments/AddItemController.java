@@ -61,7 +61,6 @@ public class AddItemController {
         String name = nameTextField.getText();
 
         if (inputIsValid(price, serialNumber, name)) {
-            errorLabel.setText("");
             commitToList(price, serialNumber, name);
         }
     }
@@ -75,6 +74,7 @@ public class AddItemController {
         priceTextField.clear();
         serialNumberTextField.clear();
         nameTextField.clear();
+        errorLabel.setText("");
 
         Stage stage = (Stage) nameTextField.getScene().getWindow();
         stage.close();
