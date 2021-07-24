@@ -23,18 +23,8 @@ public class EditItemController {
     private InventoryListModel listModel;
     private SceneManager sceneManager;
 
-    private final String error1 = "Error: Cannot confirm edit for a blank item, please fill in the blanks.";
-    private final String error2 = "Error: Price and serial number are empty.";
-    private final String error3 = "Error: Price and name are empty.";
-    private final String error4 = "Error: Serial number and name are empty.";
-    private final String error5 = "Error: Price is empty.";
-    private final String error6 = "Error: Serial number is empty.";
-    private final String error7 = "Error: Name is empty.";
-    private final String error8 = "Error: The new name must be at least two characters.";
-    private final String error9 = "Error: The new name exceeds the character limit.";
-    private final String error10 = "Error: Price is not formatted correctly.";
-    private final String error11 = "Error: Serial number is not formatted correctly.";
-    private final String error12 = "Error: Serial number already exists.";
+    private InventoryItem selectedItem;
+    private InventoryManagerController controller;
 
     @FXML
     private TextField editPriceTextField;
@@ -45,12 +35,15 @@ public class EditItemController {
     @FXML
     private Label editErrorLabel;
 
-    public EditItemController(InventoryListModel listModel, SceneManager sceneManager) {
+    public void setData(InventoryManagerController parent, InventoryListModel listModel, InventoryItem selectedItem) {
+        this.controller = parent;
         this.listModel = listModel;
-        this.sceneManager = sceneManager;
-    }
+        this.selectedItem = selectedItem;
 
-    //ToDo make it so that TextFields are initialized as the data retrieved from inventoryTable.selectionModel().getSelectedItem()
+        this.editPriceTextField.setText(selectedItem.getPrice().toString());
+        this.editSerialNumberTextField.setText(selectedItem.getSerialNumber());
+        this.editNameTextField.setText(selectedItem.getName());
+    }
 
     @FXML
     private void editConfirmButtonClicked(ActionEvent actionEvent) {
@@ -68,12 +61,9 @@ public class EditItemController {
         BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
                 .setScale(2, RoundingMode.HALF_UP);
 
-        //ToDo make it so that the items are being added to the correct index
-        listModel.getItems().add(new InventoryItem(priceBigDecimal, serialNumber, name));
-
-        editPriceTextField.clear();
-        editSerialNumberTextField.clear();
-        editNameTextField.clear();
+        selectedItem.setPrice(priceBigDecimal);
+        selectedItem.setSerialNumber(serialNumber);
+        selectedItem.setName(name);
 
         Stage stage = (Stage) editNameTextField.getScene().getWindow();
         stage.close();
@@ -89,60 +79,65 @@ public class EditItemController {
         ArrayList<String> serialNumbers = new ArrayList<>();
         for (int i = 0; i < listModel.getItems().size(); i++) {
             serialNumbers.add(listModel.getItems().get(i).getSerialNumber());
+            // serialNumbers should exclude the selectedItem's serial number, or else
+            // the user would have to change the SN every time they wanted to edit
+            serialNumbers.removeIf(s -> s.contains(selectedItem.getSerialNumber()));
         }
 
+        String priceFormatError = "Error: Price is not formatted correctly.";
+
         if (price.equals("") && serialNumber.equals("") && name.equals("")) {
-            printError(error1);
+            printError("Error: Cannot confirm edit for a blank item, please fill in the blanks.");
             return false;
         }
         else if (price.equals("") && serialNumber.equals("")) {
-            printError(error2);
+            printError("Error: Price and serial number are empty.");
             return false;
         }
         else if (price.equals("") && name.equals("")) {
-            printError(error3);
+            printError("Error: Price and name are empty.");
             return false;
         }
         else if (serialNumber.equals("") && name.equals("")) {
-            printError(error4);
+            printError("Error: Serial number and name are empty.");
             return false;
         }
         else if (price.equals("")) {
-            printError(error5);
+            printError("Error: Price is empty.");
             return false;
         }
         else if (serialNumber.equals("")) {
-            printError(error6);
+            printError("Error: Serial number is empty.");
             return false;
         }
         else if (name.equals("")) {
-            printError(error7);
+            printError("Error: Name is empty.");
             return false;
         }
         else if (name.length() < 2) {
-            printError(error8);
+            printError("Error: The new name must be at least two characters.");
             return false;
         }
         else if (name.length() > 256) {
-            printError(error9);
+            printError("Error: The new name exceeds the character limit.");
             return false;
         }
         else if (price.matches(alphaRegex)) {
-            printError(error10);
+            printError(priceFormatError);
             return false;
         }
         else if (serialNumber.length() != 10 || containsSpecialCharacters) {
-            printError(error11);
+            printError("Error: Serial number is not formatted correctly.");
             return false;
         }
         else if (serialNumbers.contains(serialNumber)) {
-            printError(error12);
-            serialNumbers.equals(null);
+            printError("Error: Serial number already exists.");
             return false;
         }
 
         // This is a very overcomplicated way of checking that
         // the input is valid as a BigDecimal
+        // Is this even needed? I have no idea
         try {
             DecimalFormatSymbols symbols = new DecimalFormatSymbols();
             symbols.setDecimalSeparator('.');
@@ -151,7 +146,7 @@ public class EditItemController {
             df.parse(price);
         }
         catch (ParseException e) {
-            printError(error10);
+            printError(priceFormatError);
             return false;
         }
 

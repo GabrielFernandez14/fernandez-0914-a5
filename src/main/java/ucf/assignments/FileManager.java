@@ -20,9 +20,8 @@ public class FileManager {
                 new FileChooser.ExtensionFilter("TSV file (.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("HTML file (.html)", "*.html")
         );
-        fileChooser.setTitle("Save Inventory List");
-        fileChooser.setInitialFileName("InventoryList");
 
+        fileChooser.setTitle("Save Inventory List");
         File file = fileChooser.showSaveDialog(null);
 
         if (fileChooser.getSelectedExtensionFilter() != null

@@ -18,12 +18,10 @@ public class SceneManager {
     Map<String, Scene> scenes = new HashMap<>();
 
     public void load() {
-        // What the heck do this do
         InventoryListModel listModel = new InventoryListModel();
 
         InventoryManagerController inventoryManagerController = new InventoryManagerController(listModel, this);
         AddItemController addItemController = new AddItemController(listModel, this);
-        EditItemController editItemController = new EditItemController(listModel, this);
         SortListController sortListController = new SortListController(listModel, this);
 
         Parent root;
@@ -48,16 +46,6 @@ public class SceneManager {
             e.printStackTrace();
         }
 
-        loader = new FXMLLoader(getClass().getResource("EditItemWindow.fxml"));
-        loader.setController(editItemController);
-        try {
-            root = loader.load();
-            scenes.put("EditItemWindow.fxml", new Scene(root));
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
         loader = new FXMLLoader(getClass().getResource("SortListWindow.fxml"));
         loader.setController(sortListController);
         try {
@@ -67,6 +55,7 @@ public class SceneManager {
         catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public Scene getScene(String name) {

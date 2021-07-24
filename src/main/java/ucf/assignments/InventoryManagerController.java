@@ -12,20 +12,19 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
-import javax.swing.*;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Filter;
 
 public class InventoryManagerController implements Initializable {
     @FXML
@@ -49,15 +48,11 @@ public class InventoryManagerController implements Initializable {
     @FXML
     private JFXButton sortListButton;
     @FXML
-    private JFXButton searchButton;
-    @FXML
     private MenuItem saveAsMenuItem;
     @FXML
     private MenuItem openMenuItem;
     @FXML
     private MenuItem quitMenuItem;
-    @FXML
-    private MenuItem searchNameMenuItem;
 
     private SceneManager sceneManager;
     private InventoryListModel listModel;
@@ -85,13 +80,6 @@ public class InventoryManagerController implements Initializable {
         stage.show();
 
         inventoryTable.setItems(listModel.getItems());
-
-        /* Can't get CSS working (because you need an actual CSS file dumbass)
-        ScrollBar scrollBar = (ScrollBar) inventoryTable.lookup(".scroll-bar:horizontal");
-        if (scrollBar != null) {
-            scrollBar.setStyle("-fx-background-color: transparent;");
-        }
-         */
     }
 
     @FXML
@@ -101,20 +89,25 @@ public class InventoryManagerController implements Initializable {
         }
     }
 
-    // ToDo need to make it so that it's not just an add method
     @FXML
-    public void editItemButtonClicked (ActionEvent actionEvent) {
+    public void editItemButtonClicked (ActionEvent actionEvent) throws IOException {
         if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
+            InventoryItem selectedItem = inventoryTable.getSelectionModel().getSelectedItem();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("EditItemWindow.fxml"));
+            Parent root = loader.load();
+
+            EditItemController controller = loader.getController();
+            controller.setData(this, listModel, selectedItem);
+
             Stage stage = new Stage();
             stage.setTitle("Edit Item");
             stage.setResizable(false);
-            stage.setScene(sceneManager.getScene("EditItemWindow.fxml"));
-            stage.show();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            inventoryTable.refresh();
         }
-
-        //listModel.getItems().remove(inventoryTable.getSelectionModel().getSelectedItem());
-
-        //inventoryTable.setItems(listModel.getItems());
     }
 
     @FXML
@@ -140,6 +133,8 @@ public class InventoryManagerController implements Initializable {
 
         ArrayList<String> data = open.loadFile(listModel);
 
+        // ToDo If the user closes out of the open window before opening
+        //  anything the list will be cleared anyway
         listModel.getItems().clear();
 
         for (int i = 0; i < data.size(); i++) {
@@ -169,12 +164,6 @@ public class InventoryManagerController implements Initializable {
         return split[2].trim();
     }
 
-    /*
-    @FXML
-    public void searchBarTextFieldTyped(ActionEvent actionEvent) {
-    }
-     */
-
     // ToDo close, but not quite working yet
     @FXML
     public void searchBarTextFieldClicked (ActionEvent actionEvent) {
@@ -196,7 +185,7 @@ public class InventoryManagerController implements Initializable {
         return new SortedList<>(filteredList);
     }
 
-    private SortedList<InventoryItem> filterItems(FilteredList<InventoryItem> filteredList, String newValue) {
+    private SortedList<InventoryItem> filterItems (FilteredList<InventoryItem> filteredList, String newValue) {
         filteredList.setPredicate(inventoryItem -> {
             if (newValue == null || newValue.isEmpty()) {
                 return true;

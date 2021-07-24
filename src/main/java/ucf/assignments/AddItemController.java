@@ -7,38 +7,21 @@ package ucf.assignments;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AddItemController {
     private InventoryListModel listModel;
     private SceneManager sceneManager;
-
-    private final String error1 = "Error: Cannot add a blank item, please fill in the blanks.";
-    private final String error2 = "Error: Price and serial number are empty.";
-    private final String error3 = "Error: Price and name are empty.";
-    private final String error4 = "Error: Serial number and name are empty.";
-    private final String error5 = "Error: Price is empty.";
-    private final String error6 = "Error: Serial number is empty.";
-    private final String error7 = "Error: Name is empty.";
-    private final String error8 = "Error: The name must be at least two characters.";
-    private final String error9 = "Error: The name exceeds the character limit.";
-    private final String error10 = "Error: Price is not formatted correctly.";
-    private final String error11 = "Error: Serial number is not formatted correctly.";
-    private final String error12 = "Error: Serial number already exists.";
 
     @FXML
     private TextField priceTextField;
@@ -92,58 +75,60 @@ public class AddItemController {
             serialNumbers.add(listModel.getItems().get(i).getSerialNumber());
         }
 
+        String priceFormatError = "Error: Price is not formatted correctly.";
+
         if (price.equals("") && serialNumber.equals("") && name.equals("")) {
-            printError(error1);
+            printError("Error: Cannot confirm edit for a blank item, please fill in the blanks.");
             return false;
         }
         else if (price.equals("") && serialNumber.equals("")) {
-            printError(error2);
+            printError("Error: Price and serial number are empty.");
             return false;
         }
         else if (price.equals("") && name.equals("")) {
-            printError(error3);
+            printError("Error: Price and name are empty.");
             return false;
         }
         else if (serialNumber.equals("") && name.equals("")) {
-            printError(error4);
+            printError("Error: Serial number and name are empty.");
             return false;
         }
         else if (price.equals("")) {
-            printError(error5);
+            printError("Error: Price is empty.");
             return false;
         }
         else if (serialNumber.equals("")) {
-            printError(error6);
+            printError("Error: Serial number is empty.");
             return false;
         }
         else if (name.equals("")) {
-            printError(error7);
+            printError("Error: Name is empty.");
             return false;
         }
         else if (name.length() < 2) {
-            printError(error8);
+            printError("Error: The new name must be at least two characters.");
             return false;
         }
         else if (name.length() > 256) {
-            printError(error9);
+            printError("Error: The new name exceeds the character limit.");
             return false;
         }
         else if (price.matches(alphaRegex)) {
-            printError(error10);
+            printError(priceFormatError);
             return false;
         }
         else if (serialNumber.length() != 10 || containsSpecialCharacters) {
-            printError(error11);
+            printError("Error: Serial number is not formatted correctly.");
             return false;
         }
         else if (serialNumbers.contains(serialNumber)) {
-            printError(error12);
-            serialNumbers.equals(null);
+            printError("Error: Serial number already exists.");
             return false;
         }
 
         // This is a very overcomplicated way of checking that
         // the input is valid as a BigDecimal
+        // Is this even needed? I have no idea
         try {
             DecimalFormatSymbols symbols = new DecimalFormatSymbols();
             symbols.setDecimalSeparator('.');
@@ -152,7 +137,7 @@ public class AddItemController {
             df.parse(price);
         }
         catch (ParseException e) {
-            printError(error10);
+            printError(priceFormatError);
             return false;
         }
 
