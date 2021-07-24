@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Filter;
 
@@ -38,7 +39,7 @@ public class InventoryManagerController implements Initializable {
     @FXML
     private TextField searchBarTextField;
     @FXML
-    private JFXButton clearSearchBarButton;
+    private JFXButton clearButton;
     @FXML
     private JFXButton addItemButton;
     @FXML
@@ -47,6 +48,8 @@ public class InventoryManagerController implements Initializable {
     private JFXButton editItemButton;
     @FXML
     private JFXButton sortListButton;
+    @FXML
+    private JFXButton searchButton;
     @FXML
     private MenuItem saveAsMenuItem;
     @FXML
@@ -58,26 +61,23 @@ public class InventoryManagerController implements Initializable {
 
     private SceneManager sceneManager;
     private InventoryListModel listModel;
-    private ObservableList<InventoryItem> items;
-    private FilteredList<InventoryItem> filteredData;
+    private ObservableList<InventoryItem> items = FXCollections.observableArrayList();
 
-    public InventoryManagerController(InventoryListModel listModel, SceneManager sceneManager) {
+    public InventoryManagerController (InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
         this.sceneManager = sceneManager;
-
-        items = FXCollections.observableArrayList();
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        valueTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, BigDecimal>("price"));
-        serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("serialNumber"));
-        nameTableColumn.setCellValueFactory(new PropertyValueFactory<InventoryItem, String>("name"));
+    public void initialize (URL location, ResourceBundle resources) {
+        valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
+        nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 
 
     @FXML
-    public void addItemButtonClicked(ActionEvent actionEvent) {
+    public void addItemButtonClicked (ActionEvent actionEvent) {
         Stage stage = new Stage();
         stage.setTitle("Add Item");
         stage.setResizable(false);
@@ -95,7 +95,7 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void deleteItemButtonClicked(ActionEvent actionEvent) {
+    public void deleteItemButtonClicked (ActionEvent actionEvent) {
         if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
             listModel.getItems().remove(inventoryTable.getSelectionModel().getSelectedItem());
         }
@@ -103,7 +103,7 @@ public class InventoryManagerController implements Initializable {
 
     // ToDo need to make it so that it's not just an add method
     @FXML
-    public void editItemButtonClicked(ActionEvent actionEvent) {
+    public void editItemButtonClicked (ActionEvent actionEvent) {
         if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
             Stage stage = new Stage();
             stage.setTitle("Edit Item");
@@ -118,7 +118,7 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void sortListButtonClicked(ActionEvent actionEvent) {
+    public void sortListButtonClicked (ActionEvent actionEvent) {
         Stage stage = new Stage();
         stage.setTitle("Sort List");
         stage.setResizable(false);
@@ -129,13 +129,13 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void saveAsMenuItemClicked(ActionEvent actionEvent) {
+    public void saveAsMenuItemClicked (ActionEvent actionEvent) {
         FileManager save = new FileManager();
         save.saveFile(listModel);
     }
 
     @FXML
-    public void openMenuItemClicked(ActionEvent actionEvent) {
+    public void openMenuItemClicked (ActionEvent actionEvent) {
         FileManager open = new FileManager();
 
         ArrayList<String> data = open.loadFile(listModel);
@@ -169,42 +169,60 @@ public class InventoryManagerController implements Initializable {
         return split[2].trim();
     }
 
-    // ToDo this doesn't work, need a different event handler
+    /*
     @FXML
     public void searchBarTextFieldTyped(ActionEvent actionEvent) {
-        // Set up search bar
-        filteredData = new FilteredList<>(items, b -> true);
-        // I feel like everyone probably used the same tutorial for this
+    }
+     */
+
+    // ToDo close, but not quite working yet
+    @FXML
+    public void searchBarTextFieldClicked (ActionEvent actionEvent) {
+        SortedList<InventoryItem> sortedList = filterList();
+
+        sortedList.comparatorProperty().bind(inventoryTable.comparatorProperty());
+        inventoryTable.setItems(sortedList);
+    }
+
+    private SortedList<InventoryItem> filterList() {
+        FilteredList<InventoryItem> filteredList = new FilteredList<>(items, b -> true);
+
         searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(inventoryItem -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String toLowerCase = newValue.toLowerCase();
-
-                if (inventoryItem.getSerialNumber().toLowerCase().contains(toLowerCase)) {
-                    return true;
-                }
-                else if (inventoryItem.getName().toLowerCase().contains(toLowerCase)) {
-                    return true;
-                }
-                return false;
-            });
+            SortedList<InventoryItem> sortedList = filterItems(filteredList, newValue);
+            sortedList.comparatorProperty().bind(inventoryTable.comparatorProperty());
+            inventoryTable.setItems(sortedList);
         });
 
-        SortedList<InventoryItem> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(inventoryTable.comparatorProperty());
-        inventoryTable.setItems(sortedData);
+        return new SortedList<>(filteredList);
+    }
+
+    private SortedList<InventoryItem> filterItems(FilteredList<InventoryItem> filteredList, String newValue) {
+        filteredList.setPredicate(inventoryItem -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
+
+            String toLowerCase = newValue.toLowerCase();
+
+            if (inventoryItem.getSerialNumber().contains(toLowerCase)) {
+                return true;
+            }
+            else if (inventoryItem.getName().contains(toLowerCase)) {
+                return true;
+            }
+            return false;
+        });
+
+        return new SortedList<>(filteredList);
     }
 
     @FXML
-    public void clearSearchBarButtonClicked(ActionEvent actionEvent) {
+    public void clearButtonClicked(ActionEvent actionEvent) {
         searchBarTextField.setText("");
     }
 
     @FXML
-    public void quitMenuItemClicked(ActionEvent actionEvent) {
+    public void quitMenuItemClicked (ActionEvent actionEvent) {
         // Only closes the main window, if other windows are open they need
         // to be closed manually
         Stage stage = (Stage) addItemButton.getScene().getWindow();

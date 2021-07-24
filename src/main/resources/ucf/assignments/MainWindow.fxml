@@ -41,7 +41,7 @@
                   <TableColumn fx:id="nameTableColumn" editable="false" prefWidth="534.0" resizable="false" sortable="false" text="Name" />
               </columns>
             </TableView>
-            <TextField fx:id="searchBarTextField" layoutX="96.0" layoutY="12.0" onKeyTyped="#searchBarTextFieldTyped" prefHeight="25.0" prefWidth="609.0" promptText="Search by Serial Number or Name" style="-fx-background-color: pink; -fx-background-radius: 15;">
+            <TextField fx:id="searchBarTextField" layoutX="96.0" layoutY="12.0" onAction="#searchBarTextFieldClicked" prefHeight="25.0" prefWidth="609.0" promptText="Search by Serial Number or Name" style="-fx-background-color: pink; -fx-background-radius: 15;">
                <font>
                   <Font name="Futura-Medium" size="12.0" />
                </font>
@@ -51,7 +51,7 @@
                   <Font name="Futura-Medium" size="14.0" />
                </font>
             </Label>
-            <JFXButton fx:id="clearSearchBarButton" buttonType="RAISED" layoutX="716.0" layoutY="11.0" onAction="#clearSearchBarButtonClicked" prefHeight="26.0" prefWidth="76.0" ripplerFill="#b9792b" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Clear" textFill="#b22b2b">
+            <JFXButton fx:id="clearButton" buttonType="RAISED" layoutX="716.0" layoutY="11.0" onAction="#clearButtonClicked" prefHeight="26.0" prefWidth="76.0" ripplerFill="#bc7626" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Clear">
                <font>
                   <Font name="Futura-Medium" size="14.0" />
                </font>
