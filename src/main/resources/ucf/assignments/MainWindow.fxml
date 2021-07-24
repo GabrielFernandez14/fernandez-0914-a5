@@ -34,7 +34,7 @@
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="inventoryTable" editable="true" layoutY="46.0" opacity="0.7" prefHeight="461.0" prefWidth="800.0">
+            <TableView fx:id="inventoryTable" editable="true" layoutY="47.0" opacity="0.7" prefHeight="460.0" prefWidth="800.0">
               <columns>
                 <TableColumn fx:id="valueTableColumn" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Value ($)" />
                 <TableColumn fx:id="serialNumberTableColumn" editable="false" prefWidth="133.0" resizable="false" sortable="false" text="Serial Number" />
@@ -46,9 +46,9 @@
                   <Font name="Futura-Medium" size="12.0" />
                </font>
             </TextField>
-            <Label layoutX="8.0" layoutY="16.0" text="Search Bar:" textFill="#905c20">
+            <Label layoutX="14.0" layoutY="18.0" text="Search Bar:">
                <font>
-                  <Font name="Futura-Medium" size="16.0" />
+                  <Font name="Futura-Medium" size="14.0" />
                </font>
             </Label>
             <JFXButton fx:id="clearSearchBarButton" buttonType="RAISED" layoutX="716.0" layoutY="11.0" onAction="#clearSearchBarButtonClicked" prefHeight="26.0" prefWidth="76.0" ripplerFill="#b9792b" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Clear" textFill="#b22b2b">
@@ -90,7 +90,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton fx:id="editItemButton" buttonType="RAISED" onAction="#editItemButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#c7be65" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Edit Item" textFill="#9a994a">
+            <JFXButton fx:id="editItemButton" buttonType="RAISED" onAction="#editItemButtonClicked" prefHeight="65.0" prefWidth="422.0" ripplerFill="#c7be65" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Edit Item" textFill="#575620">
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>

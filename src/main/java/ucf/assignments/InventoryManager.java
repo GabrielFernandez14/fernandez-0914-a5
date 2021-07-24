@@ -8,7 +8,6 @@ package ucf.assignments;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import java.io.IOException;
 
 // This is Dr. Hollander's code for launching an application using
 // a SceneManager
