@@ -152,12 +152,15 @@ public class InventoryManagerController implements Initializable {
 
     private BigDecimal readValue (ArrayList<String> fileItem, int index) {
         String[] split = fileItem.get(index).split("\t");
-        return BigDecimal.valueOf(Double.parseDouble(split[0].trim()));
+        return BigDecimal.valueOf(Double.parseDouble(split[0].trim()))
+                .setScale(2, RoundingMode.HALF_UP);
     }
+
     private String readSerialNumber (ArrayList<String> fileItem, int index) {
         String[] split = fileItem.get(index).split("\t");
         return split[1].trim();
     }
+
     private String readName (ArrayList<String> fileItem, int index) {
         String[] split = fileItem.get(index).split("\t");
         return split[2].trim();

@@ -140,20 +140,17 @@ public class FileManager {
             garbage = br.readLine();
             garbage = br.readLine();
             garbage = br.readLine();
+
             while(garbage != null) {
-                if (garbage.equals("</td></tr>")) {
+                garbage = br.readLine();
+                if (garbage.equals("</body></table></html>")) {
                     break;
                 }
-                garbage = br.readLine();
                 String curLine = br.readLine().replace("</td><td>", "\t");
                 loadItems.add(curLine);
                 garbage = br.readLine();
-                /*
-                "<tr><td>\n" + listModel.getItems().get(i).getPrice() + "</td>" +
-                "<td>" + listModel.getItems().get(i).getSerialNumber() + "</td>" +
-                "<td>" + listModel.getItems().get(i).getName() + "\n</td></tr>\n");
-                 */
             }
+
             br.close();
         }
         catch (IOException e) {

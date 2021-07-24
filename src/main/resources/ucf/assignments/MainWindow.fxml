@@ -53,7 +53,7 @@
             </Label>
             <JFXButton fx:id="clearSearchBarButton" buttonType="RAISED" layoutX="716.0" layoutY="11.0" onAction="#clearSearchBarButtonClicked" prefHeight="26.0" prefWidth="76.0" ripplerFill="#b9792b" style="-fx-background-color: lightyellow; -fx-background-radius: 10;" text="Clear" textFill="#b22b2b">
                <font>
-                  <Font name="Futura-Medium" size="15.0" />
+                  <Font name="Futura-Medium" size="14.0" />
                </font>
             </JFXButton>
          </children>
