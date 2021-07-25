@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
-    public String path;
 
     public void saveFile(InventoryListModel listModel) {
         FileChooser fileChooser = new FileChooser();
@@ -36,11 +35,10 @@ public class FileManager {
             else if (selectedExtension.contains("*.html")) {
                 writeToHTML(file.getAbsolutePath(), listModel);
             }
-            // JSON?
         }
     }
 
-    private void writeToText(String path, InventoryListModel listModel) {
+    public void writeToText(String path, InventoryListModel listModel) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(path));
             bw.write(String.format("%s\t%s\t%s", "Value ($)", "Serial Number", "Name"));
@@ -57,7 +55,7 @@ public class FileManager {
         }
     }
 
-    private void writeToHTML(String path, InventoryListModel listModel) {
+    public void writeToHTML(String path, InventoryListModel listModel) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(path));
             bw.write("<html><head>\n");
@@ -111,7 +109,7 @@ public class FileManager {
         return getData;
     }
 
-    private ArrayList<String> loadFromText(String path) {
+    public ArrayList<String> loadFromText(String path) {
         ArrayList<String> loadItems = new ArrayList<>();
 
         try {
@@ -131,7 +129,7 @@ public class FileManager {
         return loadItems;
     }
 
-    private ArrayList<String> loadFromHTML(String path) {
+    public ArrayList<String> loadFromHTML(String path) {
         ArrayList<String> loadItems = new ArrayList<>();
 
         try {

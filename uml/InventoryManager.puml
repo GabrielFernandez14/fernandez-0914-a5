@@ -81,10 +81,10 @@ class AddItemController {
     + AddItemController(listModel, sceneManager)
 
     - @FXML confirmButtonClicked((ActionEvent actionEvent)
-
-    - commitToList(String price, String serialNumber, String name)
-    - inputIsValid(String price, String serialNumber, String name): boolean
     - printError(String prompt)
+
+    + commitToList(String price, String serialNumber, String name)
+    + inputIsValid(String price, String serialNumber, String name): boolean
 }
 
 class EditItemController {
@@ -124,10 +124,10 @@ class FileManager {
     + saveFile(listModel)
     + loadFile(listModel): ArrayList<String>
 
-    - writeToText(String path, listModel)
-    - writeToHTML(String path, listModel)
-    - loadFromText(String path): ArrayList<String>
-    - loadFromHTML(String path): ArrayList<String>
+    + writeToText(String path, listModel)
+    + writeToHTML(String path, listModel)
+    + loadFromText(String path): ArrayList<String>
+    + loadFromHTML(String path): ArrayList<String>
 }
 
 openjfx.org.Application <|-- InventoryManager

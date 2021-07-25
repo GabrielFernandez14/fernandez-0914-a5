@@ -18,7 +18,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.converter.BigDecimalStringConverter;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -59,47 +62,48 @@ public class InventoryManagerController implements Initializable {
     private InventoryListModel listModel;
     private ObservableList<InventoryItem> items = FXCollections.observableArrayList();
 
-    public InventoryManagerController (InventoryListModel listModel, SceneManager sceneManager) {
+    public InventoryManagerController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
         this.sceneManager = sceneManager;
     }
 
     @Override
-    public void initialize (URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        FilteredList<InventoryItem> filteredList = new FilteredList<>(items, b -> true);
+        FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
 
         searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredList.setPredicate(inventoryItem -> {
+            filteredData.setPredicate(inventoryItem -> {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
-                String toLowerCase = newValue.toLowerCase();
+                String lowerCaseFilter = newValue.toLowerCase();
 
-                if (inventoryItem.getSerialNumber().toLowerCase().contains(toLowerCase)) {
+                if (inventoryItem.getSerialNumber().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
-                else if (inventoryItem.getName().toLowerCase().contains(toLowerCase)) {
+                else if (inventoryItem.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 }
                 else {
-                    return String.valueOf(inventoryItem.getPrice()).contains(toLowerCase);
+                    return inventoryItem.getPrice().toString().toLowerCase().contains(lowerCaseFilter);
                 }
             });
         });
 
-        SortedList<InventoryItem> sortableData = new SortedList<>(filteredList);
-        sortableData.comparatorProperty().bind(inventoryTable.comparatorProperty());
-        inventoryTable.setItems(sortableData);
+        SortedList<InventoryItem> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(inventoryTable.comparatorProperty());
+        inventoryTable.setItems(sortedData);
+        inventoryTable.refresh();
     }
 
 
     @FXML
-    public void addItemButtonClicked (ActionEvent actionEvent) {
+    public void addItemButtonClicked(ActionEvent actionEvent) {
         Stage stage = new Stage();
         stage.setTitle("Add Item");
         stage.setResizable(false);
@@ -110,14 +114,14 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void deleteItemButtonClicked (ActionEvent actionEvent) {
+    public void deleteItemButtonClicked(ActionEvent actionEvent) {
         if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
             listModel.getItems().remove(inventoryTable.getSelectionModel().getSelectedItem());
         }
     }
 
     @FXML
-    public void editItemButtonClicked (ActionEvent actionEvent) throws IOException {
+    public void editItemButtonClicked(ActionEvent actionEvent) throws IOException {
         if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
             InventoryItem selectedItem = inventoryTable.getSelectionModel().getSelectedItem();
 
@@ -138,7 +142,7 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void sortListButtonClicked (ActionEvent actionEvent) {
+    public void sortListButtonClicked(ActionEvent actionEvent) {
         Stage stage = new Stage();
         stage.setTitle("Sort List");
         stage.setResizable(false);
@@ -149,13 +153,13 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void saveAsMenuItemClicked (ActionEvent actionEvent) {
+    public void saveAsMenuItemClicked(ActionEvent actionEvent) {
         FileManager save = new FileManager();
         save.saveFile(listModel);
     }
 
     @FXML
-    public void openMenuItemClicked (ActionEvent actionEvent) {
+    public void openMenuItemClicked(ActionEvent actionEvent) {
         FileManager open = new FileManager();
 
         ArrayList<String> data = open.loadFile(listModel);
@@ -175,18 +179,18 @@ public class InventoryManagerController implements Initializable {
         inventoryTable.setItems(listModel.getItems());
     }
 
-    private BigDecimal readValue (ArrayList<String> fileItem, int index) {
+    private BigDecimal readValue(ArrayList<String> fileItem, int index) {
         String[] split = fileItem.get(index).split("\t");
         return BigDecimal.valueOf(Double.parseDouble(split[0].trim()))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-    private String readSerialNumber (ArrayList<String> fileItem, int index) {
+    private String readSerialNumber(ArrayList<String> fileItem, int index) {
         String[] split = fileItem.get(index).split("\t");
         return split[1].trim();
     }
 
-    private String readName (ArrayList<String> fileItem, int index) {
+    private String readName(ArrayList<String> fileItem, int index) {
         String[] split = fileItem.get(index).split("\t");
         return split[2].trim();
     }
@@ -197,7 +201,7 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void quitMenuItemClicked (ActionEvent actionEvent) {
+    public void quitMenuItemClicked(ActionEvent actionEvent) {
         // Only closes the main window, if other windows are open they need
         // to be closed manually
         Stage stage = (Stage) inventoryTable.getScene().getWindow();

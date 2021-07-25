@@ -12,9 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,7 +52,7 @@ public class EditItemController {
         }
     }
 
-    private void commitToList(String price, String serialNumber, String name) {
+    public void commitToList(String price, String serialNumber, String name) {
         BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
                 .setScale(2, RoundingMode.HALF_UP);
 
@@ -67,12 +64,16 @@ public class EditItemController {
         stage.close();
     }
 
-    private boolean inputIsValid(String price, String serialNumber, String name) {
+    public boolean inputIsValid(String price, String serialNumber, String name) {
         String alphaRegex = ".*[a-zA-Z].*";
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern patternPrice = Pattern.compile("[^0-9.]");
+        Pattern patternSerialNumber = Pattern.compile("[^a-zA-Z0-9]");
 
-        Matcher serialNumberMatcher = pattern.matcher(serialNumber);
-        boolean containsSpecialCharacters = serialNumberMatcher.find();
+        Matcher priceNumberMatcher = patternPrice.matcher(price);
+        boolean priceSpecialCharacters = priceNumberMatcher.find();
+
+        Matcher serialNumberMatcher = patternSerialNumber.matcher(serialNumber);
+        boolean serialNumberSpecialCharacters = serialNumberMatcher.find();
 
         ArrayList<String> serialNumbers = new ArrayList<>();
         for (int i = 0; i < listModel.getItems().size(); i++) {
@@ -120,11 +121,11 @@ public class EditItemController {
             printError("Error: The new name exceeds the character limit.");
             return false;
         }
-        else if (price.matches(alphaRegex) || containsSpecialCharacters) {
+        else if (price.matches(alphaRegex) || priceSpecialCharacters) {
             printError(priceFormatError);
             return false;
         }
-        else if (serialNumber.length() != 10 || containsSpecialCharacters) {
+        else if (serialNumber.length() != 10 || serialNumberSpecialCharacters) {
             printError("Error: Serial number is not formatted correctly.");
             return false;
         }

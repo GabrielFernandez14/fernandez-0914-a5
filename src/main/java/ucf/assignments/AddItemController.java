@@ -12,9 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,7 +49,7 @@ public class AddItemController {
         BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
                 .setScale(2, RoundingMode.HALF_UP);
 
-        listModel.getItems().add(new InventoryItem(priceBigDecimal, serialNumber, name));
+        addToList(priceBigDecimal, serialNumber, name);
 
         priceTextField.clear();
         serialNumberTextField.clear();
@@ -63,12 +60,20 @@ public class AddItemController {
         stage.close();
     }
 
-    private boolean inputIsValid(String price, String serialNumber, String name) {
-        String alphaRegex = ".*[a-zA-Z].*";
-        Pattern pattern = Pattern.compile("[^a-zA-Z0-9]");
+    public void addToList(BigDecimal price, String serialNumber, String name) {
+        listModel.getItems().add(new InventoryItem(price, serialNumber, name));
+    }
 
-        Matcher serialNumberMatcher = pattern.matcher(serialNumber);
-        boolean containsSpecialCharacters = serialNumberMatcher.find();
+    public boolean inputIsValid(String price, String serialNumber, String name) {
+        String alphaRegex = ".*[a-zA-Z].*";
+        Pattern patternPrice = Pattern.compile("[^0-9.]");
+        Pattern patternSerialNumber = Pattern.compile("[^a-zA-Z0-9]");
+
+        Matcher priceNumberMatcher = patternPrice.matcher(price);
+        boolean priceSpecialCharacters = priceNumberMatcher.find();
+
+        Matcher serialNumberMatcher = patternSerialNumber.matcher(serialNumber);
+        boolean serialNumberSpecialCharacters = serialNumberMatcher.find();
 
         ArrayList<String> serialNumbers = new ArrayList<>();
         for (int i = 0; i < listModel.getItems().size(); i++) {
@@ -97,6 +102,10 @@ public class AddItemController {
             printError("Error: Price is empty.");
             return false;
         }
+        else if (price.matches(alphaRegex) || priceSpecialCharacters) {
+            printError(priceFormatError);
+            return false;
+        }
         else if (serialNumber.equals("")) {
             printError("Error: Serial number is empty.");
             return false;
@@ -113,11 +122,7 @@ public class AddItemController {
             printError("Error: The new name exceeds the character limit.");
             return false;
         }
-        else if (price.matches(alphaRegex) || containsSpecialCharacters) {
-            printError(priceFormatError);
-            return false;
-        }
-        else if (serialNumber.length() != 10 || containsSpecialCharacters) {
+        else if (serialNumber.length() != 10 || serialNumberSpecialCharacters) {
             printError("Error: Serial number is not formatted correctly.");
             return false;
         }
