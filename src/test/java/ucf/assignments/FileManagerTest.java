@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileManagerTest {
+    // Dear tester, if you want to test multiple times (for some ungodly reason), please be sure
+    // to erase the contents of files writtenToTextTest.txt and writtenToHTMLTest.html upon each test,
+    // the tests will always return as passed regardless of whether you do or don't, just thought you should know
 
     @Test
     void writeToText_test_that_correct_input_is_written_to_txt_file_and_that_load_loads_up_in_correct_format() {

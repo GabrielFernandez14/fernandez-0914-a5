@@ -116,6 +116,21 @@ public class AddItemController {
             serialNumbers.add(listModel.getItems().get(i).getSerialNumber());
         }
 
+        // Because regex allows periods, need to check for duplicates
+        int counter = 0;
+
+        char[] charArray = new char[price.length()];
+
+        for (int i = 0; i < price.length(); i++) {
+            charArray[i] = price.charAt(i);
+        }
+
+        for (int i = 0; i < price.length(); i++) {
+            if (charArray[i] == '.') {
+                counter++;
+            }
+        }
+
         // all fields are empty
         if (price.equals("") && serialNumber.equals("") && name.equals("")) {
             return 1;
@@ -124,7 +139,7 @@ public class AddItemController {
         else if (price.equals("") && serialNumber.equals("")) {
             return 2;
         }
-        // value and price are empty
+        // value and name are empty
         else if (price.equals("") && name.equals("")) {
             return 3;
         }
@@ -145,7 +160,7 @@ public class AddItemController {
             return 7;
         }
         // price is incorrectly formatted
-        else if (price.matches(alphaRegex) || priceSpecialCharacters) {
+        else if (price.matches(alphaRegex) || priceSpecialCharacters || counter > 1) {
             return 8;
         }
         // sn is incorrectly formatted

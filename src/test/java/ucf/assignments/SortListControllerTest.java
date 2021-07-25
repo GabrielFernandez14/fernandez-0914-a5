@@ -63,9 +63,9 @@ class SortListControllerTest {
         // given
         InventoryListModel listModel = new InventoryListModel();
         SortListController sort = new SortListController(listModel, sceneManager);
-        InventoryItem item1 = new InventoryItem(BigDecimal.valueOf(2), "18237ASBJF", "Mrs. Shelly likes cupcakes");
-        InventoryItem item2 = new InventoryItem(BigDecimal.valueOf(3), "AUD1082245", "Run");
-        InventoryItem item3 = new InventoryItem(BigDecimal.valueOf(1), "AAAAAAAAAA", "Mark Zuckerberg scares me");
+        InventoryItem item1 = new InventoryItem(BigDecimal.valueOf(3), "18237ASBJF", "Mrs. Shelly likes cupcakes");
+        InventoryItem item2 = new InventoryItem(BigDecimal.valueOf(1), "AUD1082245", "Run");
+        InventoryItem item3 = new InventoryItem(BigDecimal.valueOf(2), "AAAAAAAAAA", "Mark Zuckerberg scares me");
 
         // add items to listModel
         listModel.getItems().add(item1);

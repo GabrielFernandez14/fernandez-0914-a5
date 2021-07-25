@@ -7,9 +7,9 @@ package ucf.assignments;
 
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+// Yes I know this isn't as pretty as EditItemController, that's because I did this one first ;-;
 class AddItemControllerTest {
     public SceneManager sceneManager;
 
@@ -47,10 +47,31 @@ class AddItemControllerTest {
     }
 
     @Test
-    void inputIsValid_check_that_input_is_not_empty() {
+    void inputIsValid_check_that_input_is_not_empty_set1() {
         InventoryListModel listModel = new InventoryListModel();
         AddItemController add = new AddItemController(listModel, sceneManager);
         assertEquals(1, add.inputIsValid(listModel, "", "", ""));
+    }
+
+    @Test
+    void inputIsValid_check_that_input_is_not_empty_set2() {
+        InventoryListModel listModel = new InventoryListModel();
+        AddItemController add = new AddItemController(listModel, sceneManager);
+        assertEquals(2, add.inputIsValid(listModel, "", "", "Wow"));
+    }
+
+    @Test
+    void inputIsValid_check_that_input_is_not_empty_set3() {
+        InventoryListModel listModel = new InventoryListModel();
+        AddItemController add = new AddItemController(listModel, sceneManager);
+        assertEquals(3, add.inputIsValid(listModel, "", "ABCDE12345", ""));
+    }
+
+    @Test
+    void inputIsValid_check_that_input_is_not_empty_set4() {
+        InventoryListModel listModel = new InventoryListModel();
+        AddItemController add = new AddItemController(listModel, sceneManager);
+        assertEquals(4, add.inputIsValid(listModel, "125.00", "", ""));
     }
 
     @Test
@@ -111,6 +132,13 @@ class AddItemControllerTest {
         InventoryListModel listModel = new InventoryListModel();
         AddItemController add = new AddItemController(listModel, sceneManager);
         assertEquals(8, add.inputIsValid(listModel, "aslfjh^@&(#123", "ABCDE12345", "yep"));
+    }
+
+    @Test
+    void inputIsValid_check_that_value_does_not_have_duplicate_periods() {
+        InventoryListModel listModel = new InventoryListModel();
+        AddItemController add = new AddItemController(listModel, sceneManager);
+        assertEquals(8, add.inputIsValid(listModel, "10.00.00.00.", "ABCDE12345", "yep"));
     }
 
     @Test
