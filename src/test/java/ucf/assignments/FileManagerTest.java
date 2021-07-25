@@ -15,8 +15,11 @@ class FileManagerTest {
     // to erase the contents of files writtenToTextTest.txt and writtenToHTMLTest.html upon each test,
     // the tests will always return as passed regardless of whether you do or don't, just thought you should know
 
+    // Note: my write and read methods are being tested simultaneously, (loadFrom...() functions are being used
+    // in the assert statements
+
     @Test
-    void writeToText_test_that_correct_input_is_written_to_txt_file_and_that_load_loads_up_in_correct_format() {
+    void write_and_read_txt_test_that_correct_input_is_written_to_txt_file_and_that_load_loads_up_in_correct_format() {
         // given
         FileManager file = new FileManager();
         InventoryListModel listModel = new InventoryListModel();
@@ -52,7 +55,7 @@ class FileManagerTest {
     }
 
     @Test
-    void writeToHTML_test_that_correct_input_is_written_to_html_file_and_that_load_loads_up_in_correct_format() {
+    void write_and_read_html_test_that_correct_input_is_written_to_html_file_and_that_load_loads_up_in_correct_format() {
         // given
         FileManager file = new FileManager();
         InventoryListModel listModel = new InventoryListModel();

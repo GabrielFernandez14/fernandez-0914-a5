@@ -18,16 +18,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.converter.BigDecimalStringConverter;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class InventoryManagerController implements Initializable {
@@ -75,25 +71,23 @@ public class InventoryManagerController implements Initializable {
 
         FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
 
-        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(inventoryItem -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
+        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(inventoryItem -> {
+            if (newValue == null || newValue.isEmpty()) {
+                return true;
+            }
 
-                String lowerCaseFilter = newValue.toLowerCase();
+            String lowerCaseFilter = newValue.toLowerCase();
 
-                if (inventoryItem.getSerialNumber().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                else if (inventoryItem.getName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                else {
-                    return inventoryItem.getPrice().toString().toLowerCase().contains(lowerCaseFilter);
-                }
-            });
-        });
+            if (inventoryItem.getSerialNumber().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            }
+            else if (inventoryItem.getName().toLowerCase().contains(lowerCaseFilter)) {
+                return true;
+            }
+            else {
+                return inventoryItem.getPrice().toString().toLowerCase().contains(lowerCaseFilter);
+            }
+        }));
 
         SortedList<InventoryItem> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(inventoryTable.comparatorProperty());

@@ -56,5 +56,5 @@ class InventoryManagerControllerTest {
         assertEquals(2, listModel.getItems().size());
     }
 
-    // Tests for sort(?) and search will go here
+    // Tests for search will go here
 }

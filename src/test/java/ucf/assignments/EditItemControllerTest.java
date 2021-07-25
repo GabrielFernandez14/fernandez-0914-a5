@@ -276,7 +276,8 @@ class EditItemControllerTest {
         // Update selectedItemLocal with commitEditItem()
         edit.commitEditItem(selectedItemLocal, price, serialNumber, name);
 
-        // set the index of selectedItemLocal with the new data
+        // set the index of selectedItemLocal with the new dat
+        // this accomplishes what setItems() to the tableview does
         listModel.getItems().set(0, selectedItemLocal);
 
         // Check that the item was updated
