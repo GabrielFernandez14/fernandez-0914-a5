@@ -52,7 +52,8 @@ class AddItemControllerTest {
     @Test
     void inputIsValid_check_that_input_is_not_empty() {
         InventoryListModel listModel = new InventoryListModel();
-        assertFalse(inputIsValidTest(listModel, "", "", ""));
+        AddItemController add = new AddItemController(listModel, sceneManager);
+        assertEquals(1, add.inputIsValid(listModel, "", "", ""));
     }
 
     @Test
