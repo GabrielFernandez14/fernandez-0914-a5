@@ -6,10 +6,10 @@ class InventoryManager {
 }
 
 class SceneManager {
-    + scenes: Map<String, Scene>
+    + scenes: HashMap<String, Scene>
 
     + load()
-    + getScene(String name)
+    + getScene(String name): Scene
 }
 
 class InventoryManagerController {
@@ -18,33 +18,28 @@ class InventoryManagerController {
     - @FXML serialNumberTableColumn: TableColumn<InventoryItem, String>
     - @FXML nameTableColumn: TableColumn<InventoryItem, String>
     - @FXML searchBarTextField: TextField
-    - @FXML clearButton: JFXButton
-    - @FXML addItemButton: JFXButton
-    - @FXML deleteItemButton: JFXButton
-    - @FXML editItemButton: JFXButton
-    - @FXML sortListButton: JFXButton
-    - @FXML saveAsMenuItem: MenuItem
-    - @FXML openMenuItem: MenuItem
-    - @FXML quitMenuItem: MenuItem
 
     - sceneManager: SceneManager
     - listModel: InventoryListModel
     - items: ObservableList<InventoryItem>
+    - tempList: ObservableList<InventoryItem>
+
+    - readValue(ArrayList<String> fileItem, int index): BigDecimal
+    - readSerialNumber(ArrayList<String> fileItem, int index): String
+    - readString(ArrayList<String> fileItem, int index): String
 
     + InventoryManagerController(listModel, sceneManager)
+    + getFoundEntries(listModel, tempList, String entry): ObservableList<InventoryItem>
     + @Override initialize(URL location, ResourceBundle resources)
     + @FXML addItemButtonClicked(ActionEvent actionEvent)
     + @FXML deleteItemButtonClicked(ActionEvent actionEvent)
     + @FXML editItemButtonClicked(ActionEvent actionEvent)
     + @FXML sortListButtonClicked(ActionEvent actionEvent)
     + @FXML saveAsMenuItemClicked(ActionEvent actionEvent)
+    + @FXML searchButtonClicked(ActionEvent actionEvent)
+    + @FXML resetButtonClicked(ActionEvent actionEvent)
     + @FXML openMenuItemClicked(ActionEvent actionEvent)
     + @FXML quitMenuItemClicked(ActionEvent actionEvent)
-    + @FXML clearButtonClicked(ActionEvent actionEvent)
-
-    - readValue(ArrayList<String> fileItem, int index): BigDecimal
-    - readSerialNumber(ArrayList<String> fileItem, int index): String
-    - readString(ArrayList<String> fileItem, int index): String
 }
 
 class InventoryListModel {
@@ -78,13 +73,13 @@ class AddItemController {
     - @FXML nameTextField: TextField
     - @FXML errorLabel: Label
 
-    + AddItemController(listModel, sceneManager)
-
     - @FXML confirmButtonClicked((ActionEvent actionEvent)
     - printError(String prompt)
+    - commitToList(String price, String serialNumber, String name)
 
-    + commitToList(String price, String serialNumber, String name)
-    + inputIsValid(String price, String serialNumber, String name): boolean
+    + AddItemController(listModel, sceneManager)
+    + addToList(BigDecimal price, String serialNumber, String name)
+    + inputIsValid(listModel, String price, String serialNumber, String name): int
 }
 
 class EditItemController {
@@ -97,12 +92,13 @@ class EditItemController {
     - @FXML editNameTextField: TextField
     - @FXML editErrorLabel: Label
 
-    + setData(InventoryManagerController parent, listModel, selectedItem)
-
     - @FXML confirmButtonClicked(ActionEvent actionEvent)
     - commitToList(String price, String serialNumber, String name)
-    - inputIsValid(String price, String serialNumber, String name): boolean
+    - inputIsValid(listModel, selectedItem, String price, String serialNumber, String name): int
     - printError(String prompt)
+
+    + setData(controller, listModel, selectedItem)
+    + commitEditItem(selectedItem, BigDecimal price, String serialNumber, String name)
 }
 
 class SortListController {
@@ -110,14 +106,17 @@ class SortListController {
     - sceneManager: SceneManager
 
     - @FXML sortByValueButton: Button
-    - @FXML sortBySNButton: Button
+    - @FXML sortBySerialNumberButton: Button
     - @FXML sortByNameButton: Button
 
-    + SortListController(listModel, sceneManager)
-
     - @FXML sortByValueButtonClicked((ActionEvent actionEvent)
-    - @FXML sortBySNButtonClicked((ActionEvent actionEvent)
+    - @FXML sortBySerialNumberButtonClicked((ActionEvent actionEvent)
     - @FXML sortByNameButtonClicked((ActionEvent actionEvent)
+
+    + SortListController(listModel, sceneManager)
+    + sortByValue(listModel)
+    + sortBYSerialNumber(listModel)
+    + sortByName(listModel)
 }
 
 class FileManager {
@@ -139,7 +138,6 @@ EditItemController -- InventoryManagerController
 InventoryManagerController o-- InventoryListModel
 InventoryManagerController -- FileManager
 AddItemController o-- InventoryListModel
-EditItemController o-- InventoryListModel
 SortListController o-- InventoryListModel
-InventoryListModel *== InventoryItem
+InventoryListModel *-- InventoryItem
 @enduml
