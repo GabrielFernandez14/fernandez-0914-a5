@@ -23,6 +23,7 @@ public class SortListController {
     @FXML
     private Button sortByNameButton;
 
+    // Get data from the SceneManager
     public SortListController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
         this.sceneManager = sceneManager;
@@ -30,13 +31,14 @@ public class SortListController {
 
     @FXML
     private void sortByValueButtonClicked(ActionEvent actionEvent) {
-        // These solely exist so I can test
         sortByValue(listModel);
 
+        // Close the window
         Stage stage = (Stage) sortByValueButton.getScene().getWindow();
         stage.close();
     }
 
+    // Sort the list by value
     public void sortByValue(InventoryListModel listModel) {
         Comparator<InventoryItem> comparator = Comparator.comparing(InventoryItem::getPrice);
         FXCollections.sort(listModel.getItems(), comparator);
@@ -46,10 +48,12 @@ public class SortListController {
     private void sortBySerialNumberButtonClicked(ActionEvent actionEvent) {
         sortBySerialNumber(listModel);
 
+        // Close the window
         Stage stage = (Stage) sortBySNButton.getScene().getWindow();
         stage.close();
     }
 
+    // Sort the list by serial number
     public void sortBySerialNumber(InventoryListModel listModel) {
         Comparator<InventoryItem> comparator = Comparator.comparing(InventoryItem::getSerialNumber);
         FXCollections.sort(listModel.getItems(), comparator);
@@ -58,13 +62,13 @@ public class SortListController {
     @FXML
     private void sortByNameButtonClicked(ActionEvent actionEvent) {
         sortByName(listModel);
-        Comparator<InventoryItem> comparator = Comparator.comparing(InventoryItem::getName);
-        FXCollections.sort(listModel.getItems(), comparator);
 
+        // Close the window
         Stage stage = (Stage) sortByNameButton.getScene().getWindow();
         stage.close();
     }
 
+    // Sort the list by name
     public void sortByName(InventoryListModel listModel) {
         Comparator<InventoryItem> comparator = Comparator.comparing(InventoryItem::getName);
         FXCollections.sort(listModel.getItems(), comparator);

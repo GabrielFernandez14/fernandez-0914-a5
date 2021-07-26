@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 class EditItemControllerTest {
-    // Only need one of these for the duplicate tests
+    // Only need one of these for the duplicate test
     private final InventoryItem selectedItem = new InventoryItem
             (BigDecimal.valueOf(1), "IsDuplicat", "Don't care");
 

@@ -9,8 +9,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
-// This is Dr. Hollander's code for launching an application using
-// a SceneManager
+// Thanks for the SceneManager Dr. Hollander :)
 public class InventoryManager extends Application {
 
     public static void main(String[] args) {

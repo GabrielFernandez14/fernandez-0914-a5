@@ -30,11 +30,13 @@ public class EditItemController {
     @FXML
     private Label editErrorLabel;
 
+    // Get data from main window controller
     public void setData(InventoryManagerController parent, InventoryListModel listModel, InventoryItem selectedItem) {
         this.controller = parent;
         this.listModel = listModel;
         this.selectedItem = selectedItem;
 
+        // Initialize text fields with selected item's data
         this.editPriceTextField.setText(selectedItem.getPrice().toString());
         this.editSerialNumberTextField.setText(selectedItem.getSerialNumber());
         this.editNameTextField.setText(selectedItem.getName());
@@ -46,6 +48,7 @@ public class EditItemController {
         String serialNumber = editSerialNumberTextField.getText();
         String name = editNameTextField.getText();
 
+        // Check if input is valid, if it is not, print an appropriate error message
         if (inputIsValid(listModel, selectedItem, price, serialNumber, name) == 1) {
             printError("Error: Cannot confirm edit for a blank item, please fill in the blanks.");
         }
@@ -82,12 +85,13 @@ public class EditItemController {
         else if (inputIsValid(listModel, selectedItem, price, serialNumber, name) == 12) {
             printError("Error: The new name exceeds the character limit.");
         }
-        // return is 0
+        // Return is 0 and therefore input is valid
         else {
             commitToList(price, serialNumber, name);
         }
     }
 
+    // Commit the changes made to the item, reset values, and close the window
     private void commitToList(String price, String serialNumber, String name) {
         BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
                 .setScale(2, RoundingMode.HALF_UP);
@@ -95,10 +99,17 @@ public class EditItemController {
         // For testing purposes
         commitEditItem(selectedItem, priceBigDecimal, serialNumber, name);
 
+        editPriceTextField.clear();
+        editSerialNumberTextField.clear();
+        editNameTextField.clear();
+        editErrorLabel.setText("");
+
         Stage stage = (Stage) editNameTextField.getScene().getWindow();
         stage.close();
     }
 
+    // Changes the InventoryItem's data based on the data given by
+    // parameters
     public void commitEditItem(InventoryItem selectedItem, BigDecimal price, String serialNumber, String name) {
         selectedItem.setPrice(price);
         selectedItem.setSerialNumber(serialNumber);
@@ -190,6 +201,7 @@ public class EditItemController {
             return 12;
         }
 
+        // input is valid
         return 0;
     }
 

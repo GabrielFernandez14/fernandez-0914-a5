@@ -8,7 +8,8 @@ package ucf.assignments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-// Basically just creates an ObservableList<InventoryItem>, thanks prof
+// Basically just creates an ObservableList<InventoryItem> that is
+// used literally everywhere
 public class InventoryListModel {
     public ObservableList<InventoryItem> items;
 

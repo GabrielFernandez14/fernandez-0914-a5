@@ -5,7 +5,6 @@
 
 package ucf.assignments;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,24 +34,6 @@ public class InventoryManagerController implements Initializable {
     private TableColumn<InventoryItem, String> nameTableColumn;
     @FXML
     private TextField searchBarTextField;
-    @FXML
-    private JFXButton clearButton;
-    @FXML
-    private JFXButton addItemButton;
-    @FXML
-    private JFXButton deleteItemButton;
-    @FXML
-    private JFXButton editItemButton;
-    @FXML
-    private JFXButton sortListButton;
-    @FXML
-    private MenuItem saveAsMenuItem;
-    @FXML
-    private MenuItem openMenuItem;
-    @FXML
-    private MenuItem quitMenuItem;
-    @FXML
-    private ChoiceBox<String> choiceBox;
 
     private SceneManager sceneManager;
     private InventoryListModel listModel;
@@ -66,25 +47,28 @@ public class InventoryManagerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Initialize inventoryTable's columns with PropertyValueFactories
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
 
-
     @FXML
     public void addItemButtonClicked(ActionEvent actionEvent) {
+        // Open new scene using SceneManager
         Stage stage = new Stage();
         stage.setTitle("Add Item");
         stage.setResizable(false);
         stage.setScene(sceneManager.getScene("AddItemWindow.fxml"));
         stage.show();
 
+        // Update inventoryTable with the new items
         inventoryTable.setItems(listModel.getItems());
     }
 
     @FXML
     public void deleteItemButtonClicked(ActionEvent actionEvent) {
+        // Remove the selected item from the tableview (and therefore the list)
         if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
             listModel.getItems().remove(inventoryTable.getSelectionModel().getSelectedItem());
         }
@@ -92,6 +76,9 @@ public class InventoryManagerController implements Initializable {
 
     @FXML
     public void editItemButtonClicked(ActionEvent actionEvent) throws IOException {
+        // Could not figure out how to make a part of SceneManager
+        // while also being able to pass variables, so this makes
+        // a new scene manually
         if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
             InventoryItem selectedItem = inventoryTable.getSelectionModel().getSelectedItem();
 
@@ -107,78 +94,87 @@ public class InventoryManagerController implements Initializable {
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
+            // Refresh the table so that the edits are shown
             inventoryTable.refresh();
         }
     }
 
     @FXML
     public void sortListButtonClicked(ActionEvent actionEvent) {
+        // Get the SortListWindow scene from SceneManager and open
         Stage stage = new Stage();
         stage.setTitle("Sort List");
         stage.setResizable(false);
         stage.setScene(sceneManager.getScene("SortListWindow.fxml"));
         stage.show();
 
+        // update the inventoryTable accordingly for what was sorted
         inventoryTable.setItems(listModel.getItems());
     }
 
     @FXML
     public void saveAsMenuItemClicked(ActionEvent actionEvent) {
+        // Create a new instance of class FileManager and call saveFile
         FileManager save = new FileManager();
         save.saveFile(listModel);
     }
 
     @FXML
     public void openMenuItemClicked(ActionEvent actionEvent) {
+        // Create a new instance of class FileManager and call loadFile
         FileManager open = new FileManager();
-
         ArrayList<String> data = open.loadFile(listModel);
 
-        // Yes there's an issue here, don't really know how I can go
-        // about fixing it since I screwed myself over bcs of how I coded this
-        listModel.getItems().clear();
-
+        // Read in the data from the ArrayList
         for (int i = 0; i < data.size(); i++) {
             BigDecimal curPrice = readValue(data, i);
             String curSerialNumber = readSerialNumber(data, i);
             String curName = readName(data, i);
 
+            // list will have already been cleared, so just add the new stuff
             listModel.getItems().add(new InventoryItem(curPrice, curSerialNumber, curName));
         }
 
+        // update the inventoryTable accordingly
         inventoryTable.setItems(listModel.getItems());
     }
 
     private BigDecimal readValue(ArrayList<String> fileItem, int index) {
+        // Parse the given string and return the price as a BigDecimal
         String[] split = fileItem.get(index).split("\t");
         return BigDecimal.valueOf(Double.parseDouble(split[0].trim()))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
     private String readSerialNumber(ArrayList<String> fileItem, int index) {
+        // Parse the given string and return the serial number
         String[] split = fileItem.get(index).split("\t");
         return split[1].trim();
     }
 
     private String readName(ArrayList<String> fileItem, int index) {
+        // Parse the given string and return the name
         String[] split = fileItem.get(index).split("\t");
         return split[2].trim();
     }
 
     @FXML
     public void searchButtonClicked(ActionEvent actionEvent) {
+        // Clear the ObservableArrayLists so that duplicates don't occur
+        // each time the button is pressed
         items.clear();
         tempList.clear();
 
         String entry = searchBarTextField.getText().toLowerCase().trim();
 
         if (!entry.equals("")) {
+            // Find and set all entries that contain the inputted string
             items.setAll(getFoundEntries(listModel, tempList, entry));
             inventoryTable.setItems(items);
         }
     }
 
-    // For tests
+    // Check if the user's input matches any of the list's items (serial number or name only)
     public ObservableList<InventoryItem> getFoundEntries(InventoryListModel listModel,
                                                          ObservableList<InventoryItem> tempList, String entry) {
         for (int i = 0; i < listModel.getItems().size(); i++) {
@@ -191,6 +187,7 @@ public class InventoryManagerController implements Initializable {
         return tempList;
     }
 
+    // Reset the search so that the user can view all items again
     @FXML
     public void resetButtonClicked(ActionEvent actionEvent) {
         searchBarTextField.setText("");
@@ -201,6 +198,7 @@ public class InventoryManagerController implements Initializable {
         inventoryTable.setItems(listModel.getItems());
     }
 
+    // Close the main window of the application
     @FXML
     public void quitMenuItemClicked(ActionEvent actionEvent) {
         // Only closes the main window, if other windows are open they need

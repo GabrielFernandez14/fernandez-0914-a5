@@ -29,6 +29,7 @@ public class AddItemController {
     @FXML
     private Label errorLabel;
 
+    // Get data from the SceneManager
     public AddItemController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
         this.sceneManager = sceneManager;
@@ -40,6 +41,7 @@ public class AddItemController {
         String serialNumber = serialNumberTextField.getText();
         String name = nameTextField.getText();
 
+        // Check if any errors are in the input
         if (inputIsValid(listModel, price, serialNumber, name) == 1) {
             printError("Error: Cannot confirm edit for a blank item, please fill in the blanks.");
         }
@@ -81,6 +83,7 @@ public class AddItemController {
         }
     }
 
+    // Reset values, close the window, and commit the new item to the list
     private void commitToList(String price, String serialNumber, String name) {
         BigDecimal priceBigDecimal = BigDecimal.valueOf(Double.parseDouble(price))
                 .setScale(2, RoundingMode.HALF_UP);
@@ -96,10 +99,14 @@ public class AddItemController {
         stage.close();
     }
 
+    // For testing purposes
     public void addToList(BigDecimal price, String serialNumber, String name) {
         listModel.getItems().add(new InventoryItem(price, serialNumber, name));
     }
 
+    // Check that the input is valid, and return a corresponding int depending on the
+    // error that occurred
+    // (Yes I realize how disgusting this is, but it makes it really easy to test)
     public int inputIsValid(InventoryListModel listModel, String price, String serialNumber, String name) {
         String alphaRegex = ".*[a-zA-Z].*";
         Pattern patternPrice = Pattern.compile("[^0-9.]");
@@ -180,6 +187,7 @@ public class AddItemController {
             return 12;
         }
 
+        // input is valid
         return 0;
     }
 
