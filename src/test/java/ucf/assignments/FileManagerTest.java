@@ -16,7 +16,7 @@ class FileManagerTest {
     // the tests will always return as passed regardless of whether you do or don't, just thought you should know
 
     // Note: my write and read methods are being tested simultaneously, (loadFrom...() functions are being used
-    // in the assert statements
+    // in the assert statements)
 
     @Test
     void write_and_read_txt_test_that_correct_input_is_written_to_txt_file_and_that_load_loads_up_in_correct_format() {

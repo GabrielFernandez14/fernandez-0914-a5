@@ -16,22 +16,27 @@ class InventoryManagerControllerTest {
 
     @Test
     void deleteItem_test_true_set1() {
+        // given
         InventoryListModel listModel = new InventoryListModel();
-
         BigDecimal price = BigDecimal.valueOf(1125.00);
         String serialNumber = "ABCDE12345";
         String name = "Samsung Smart Fridge";
 
         InventoryItem item = new InventoryItem(price, serialNumber, name);
 
+        // add given item to the list
         listModel.getItems().add(item);
+
+        // remove the "selected item"
         listModel.getItems().remove(item);
 
+        // check that the list is empty
         assertEquals(0, listModel.getItems().size());
     }
 
     @Test
     void deleteItem_test_true_set2() {
+        // given
         InventoryListModel listModel = new InventoryListModel();
 
         BigDecimal price1 = BigDecimal.valueOf(1125.00);
@@ -50,12 +55,15 @@ class InventoryManagerControllerTest {
         InventoryItem item2 = new InventoryItem(price2, serialNumber2, name2);
         InventoryItem item3 = new InventoryItem(price3, serialNumber3, name3);
 
+        // add the items to the list
         listModel.getItems().add(item1);
         listModel.getItems().add(item2);
         listModel.getItems().add(item3);
 
+        // remove the "selected item"
         listModel.getItems().remove(item2);
 
+        // Check that the size of the list is two
         assertEquals(2, listModel.getItems().size());
     }
 
@@ -71,11 +79,17 @@ class InventoryManagerControllerTest {
 
         // populate the list (tableview)
         // we don't care about price
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give " +
+                        "Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
 
         // Expected ObservableList<InventoryItem> should contain all items' serial numbers or names
         // that have String entry in them
@@ -101,11 +115,17 @@ class InventoryManagerControllerTest {
 
         // populate the list (tableview)
         // we don't care about price
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give " +
+                        "Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
 
         // Expected ObservableList<InventoryItem> should contain all items' serial numbers or names
         // that have String entry in them
@@ -128,11 +148,17 @@ class InventoryManagerControllerTest {
 
         // populate the list (tableview)
         // we don't care about price
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give " +
+                        "Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
 
         // Expected ObservableList<InventoryItem> should contain all items' serial numbers or names
         // that have String entry in them
@@ -159,11 +185,17 @@ class InventoryManagerControllerTest {
 
         // populate the list (tableview)
         // we don't care about price
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
-        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give " +
+                        "Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem
+                (BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
 
         // Expected ObservableList<InventoryItem> had nothing added to it
         // because the entry was not found anywhere

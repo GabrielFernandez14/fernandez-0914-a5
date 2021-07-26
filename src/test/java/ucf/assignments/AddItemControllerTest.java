@@ -199,28 +199,28 @@ class AddItemControllerTest {
     }
 
     @Test
-    void inputIsValid_multiple_errors_set1() {
+    void inputIsValid_multiple_errors_and_hierarchy_is_maintained_set1() {
         InventoryListModel listModel = new InventoryListModel();
         AddItemController add = new AddItemController(listModel, sceneManager);
         assertEquals(8, add.inputIsValid(listModel, "1%$@00", "ABC^#(5", "Y"));
     }
 
     @Test
-    void inputIsValid_multiple_errors_set2() {
+    void inputIsValid_multiple_errors_and_hierarchy_is_maintained_set2() {
         InventoryListModel listModel = new InventoryListModel();
         AddItemController add = new AddItemController(listModel, sceneManager);
         assertEquals(7, add.inputIsValid(listModel, "I'm not a number", "ABCDE12345", ""));
     }
 
     @Test
-    void inputIsValid_multiple_errors_set3() {
+    void inputIsValid_multiple_errors_and_hierarchy_is_maintained_set3() {
         InventoryListModel listModel = new InventoryListModel();
         AddItemController add = new AddItemController(listModel, sceneManager);
         assertEquals(9, add.inputIsValid(listModel, "100.", "*()ABCDEH1", "I"));
     }
 
     @Test
-    void inputIsValid_multiple_errors_set4() {
+    void inputIsValid_multiple_errors_and_hierarchy_is_maintained_set4() {
         InventoryListModel listModel = new InventoryListModel();
         AddItemController add = new AddItemController(listModel, sceneManager);
         assertEquals(7, add.inputIsValid(listModel, "80741,9812", "1234567891", ""));
