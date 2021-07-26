@@ -5,11 +5,14 @@
 
 package ucf.assignments;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InventoryManagerControllerTest {
+    public SceneManager sceneManager;
 
     @Test
     void deleteItem_test_true_set1() {
@@ -56,5 +59,117 @@ class InventoryManagerControllerTest {
         assertEquals(2, listModel.getItems().size());
     }
 
-    // Tests for search will go here
+    @Test
+    void getFoundEntries_test_that_items_that_contain_entry_string_are_returned_set1() {
+        // given
+        InventoryListModel listModel = new InventoryListModel();
+        InventoryManagerController getMatchingItems = new InventoryManagerController(listModel, sceneManager);
+        ObservableList<InventoryItem> expectedList = FXCollections.observableArrayList();
+        ObservableList<InventoryItem> actualList;
+        ObservableList<InventoryItem> tempList = FXCollections.observableArrayList();
+        String entry = "yep";
+
+        // populate the list (tableview)
+        // we don't care about price
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+
+        // Expected ObservableList<InventoryItem> should contain all items' serial numbers or names
+        // that have String entry in them
+        expectedList.add(listModel.getItems().get(0));
+        expectedList.add(listModel.getItems().get(1));
+        expectedList.add(listModel.getItems().get(2));
+        expectedList.add(listModel.getItems().get(4));
+
+        // assert equals expected vs. actual
+        actualList = getMatchingItems.getFoundEntries(listModel, tempList, entry);
+        assertEquals(expectedList, actualList);
+    }
+
+    @Test
+    void getFoundEntries_test_that_items_that_contain_entry_string_are_returned_set2() {
+        // given
+        InventoryListModel listModel = new InventoryListModel();
+        InventoryManagerController getMatchingItems = new InventoryManagerController(listModel, sceneManager);
+        ObservableList<InventoryItem> expectedList = FXCollections.observableArrayList();
+        ObservableList<InventoryItem> actualList;
+        ObservableList<InventoryItem> tempList = FXCollections.observableArrayList();
+        String entry = "123";
+
+        // populate the list (tableview)
+        // we don't care about price
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+
+        // Expected ObservableList<InventoryItem> should contain all items' serial numbers or names
+        // that have String entry in them
+        expectedList.add(listModel.getItems().get(2));
+
+        // assert equals expected vs. actual
+        actualList = getMatchingItems.getFoundEntries(listModel, tempList, entry);
+        assertEquals(expectedList, actualList);
+    }
+
+    @Test
+    void getFoundEntries_test_that_items_that_contain_entry_string_are_returned_set3() {
+        // given
+        InventoryListModel listModel = new InventoryListModel();
+        InventoryManagerController getMatchingItems = new InventoryManagerController(listModel, sceneManager);
+        ObservableList<InventoryItem> expectedList = FXCollections.observableArrayList();
+        ObservableList<InventoryItem> actualList;
+        ObservableList<InventoryItem> tempList = FXCollections.observableArrayList();
+        String entry = "a";
+
+        // populate the list (tableview)
+        // we don't care about price
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+
+        // Expected ObservableList<InventoryItem> should contain all items' serial numbers or names
+        // that have String entry in them
+        expectedList.add(listModel.getItems().get(0));
+        expectedList.add(listModel.getItems().get(1));
+        expectedList.add(listModel.getItems().get(2));
+        expectedList.add(listModel.getItems().get(3));
+        expectedList.add(listModel.getItems().get(4));
+
+        // assert equals expected vs. actual
+        actualList = getMatchingItems.getFoundEntries(listModel, tempList, entry);
+        assertEquals(expectedList, actualList);
+    }
+
+    @Test
+    void getFoundEntries_test_that_items_that_contain_entry_string_are_returned_set4() {
+        // given
+        InventoryListModel listModel = new InventoryListModel();
+        InventoryManagerController getMatchingItems = new InventoryManagerController(listModel, sceneManager);
+        ObservableList<InventoryItem> expectedList = FXCollections.observableArrayList();
+        ObservableList<InventoryItem> actualList;
+        ObservableList<InventoryItem> tempList = FXCollections.observableArrayList();
+        String entry = "z";
+
+        // populate the list (tableview)
+        // we don't care about price
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(1), "A1B2C3D4E5", "Yep this here string"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(2), "B134671924", "This string also has yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(3), "123UVGASFK", "Nope I don't like this yep"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(4), "4321ASFGHH", "Whoever is reading this, give Death's Door on Steam a try, it's really good"));
+        listModel.getItems().add(new InventoryItem(BigDecimal.valueOf(5), "NMMMYEPB4J", "Nap-time"));
+
+        // Expected ObservableList<InventoryItem> had nothing added to it
+        // because the entry was not found anywhere
+
+        // assert equals expected vs. actual
+        actualList = getMatchingItems.getFoundEntries(listModel, tempList, entry);
+        assertEquals(expectedList, actualList);
+    }
 }

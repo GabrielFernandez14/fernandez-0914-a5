@@ -8,8 +8,6 @@ package ucf.assignments;
 import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,10 +51,13 @@ public class InventoryManagerController implements Initializable {
     private MenuItem openMenuItem;
     @FXML
     private MenuItem quitMenuItem;
+    @FXML
+    private ChoiceBox<String> choiceBox;
 
     private SceneManager sceneManager;
     private InventoryListModel listModel;
     private ObservableList<InventoryItem> items = FXCollections.observableArrayList();
+    private ObservableList<InventoryItem> tempList = FXCollections.observableArrayList();
 
     public InventoryManagerController(InventoryListModel listModel, SceneManager sceneManager) {
         this.listModel = listModel;
@@ -68,31 +69,6 @@ public class InventoryManagerController implements Initializable {
         valueTableColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         serialNumberTableColumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        FilteredList<InventoryItem> filteredData = new FilteredList<>(items, b -> true);
-
-        searchBarTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(inventoryItem -> {
-            if (newValue == null || newValue.isEmpty()) {
-                return true;
-            }
-
-            String lowerCaseFilter = newValue.toLowerCase();
-
-            if (inventoryItem.getSerialNumber().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            }
-            else if (inventoryItem.getName().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            }
-            else {
-                return inventoryItem.getPrice().toString().toLowerCase().contains(lowerCaseFilter);
-            }
-        }));
-
-        SortedList<InventoryItem> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(inventoryTable.comparatorProperty());
-        inventoryTable.setItems(sortedData);
-        inventoryTable.refresh();
     }
 
 
@@ -190,8 +166,39 @@ public class InventoryManagerController implements Initializable {
     }
 
     @FXML
-    public void clearButtonClicked(ActionEvent actionEvent) {
+    public void searchButtonClicked(ActionEvent actionEvent) {
+        items.clear();
+        tempList.clear();
+
+        String entry = searchBarTextField.getText().toLowerCase().trim();
+
+        if (!entry.equals("")) {
+            items.setAll(getFoundEntries(listModel, tempList, entry));
+            inventoryTable.setItems(items);
+        }
+    }
+
+    // For tests
+    public ObservableList<InventoryItem> getFoundEntries(InventoryListModel listModel,
+                                                         ObservableList<InventoryItem> tempList, String entry) {
+        for (int i = 0; i < listModel.getItems().size(); i++) {
+            if (listModel.getItems().get(i).getSerialNumber().toLowerCase().contains(entry) ||
+                    listModel.getItems().get(i).getName().toLowerCase().contains(entry)) {
+                tempList.add(listModel.getItems().get(i));
+            }
+        }
+
+        return tempList;
+    }
+
+    @FXML
+    public void resetButtonClicked(ActionEvent actionEvent) {
         searchBarTextField.setText("");
+
+        tempList.clear();
+        items.clear();
+
+        inventoryTable.setItems(listModel.getItems());
     }
 
     @FXML

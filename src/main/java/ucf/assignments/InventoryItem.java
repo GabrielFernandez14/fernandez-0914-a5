@@ -5,8 +5,12 @@
 
 package ucf.assignments;
 
+import javafx.collections.ObservableList;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventoryItem implements Serializable {
     private BigDecimal price;
